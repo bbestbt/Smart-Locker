@@ -1,4 +1,4 @@
-# locker
+# Smart Locker
 
 A new Flutter project.
 
