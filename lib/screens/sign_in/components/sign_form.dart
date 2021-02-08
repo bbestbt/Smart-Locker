@@ -145,7 +145,7 @@ class _SignFormState extends State<SignForm> {
         hintText: "enter a username",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomSuffixIcon(
-          svgIcon: "assets/icons/User Icon.svg",
+          svgIcon: "assets/icons/User.svg",
         ),
       ),
     );
