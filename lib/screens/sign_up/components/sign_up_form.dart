@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:locker/components/default_button.dart';
 import 'package:locker/components/form_error.dart';
 import 'package:locker/constants.dart';
+import 'package:locker/screens/OTP/otp_screen.dart';
 import 'package:locker/size_config.dart';
 
 class SignUpForm extends StatefulWidget {
@@ -58,6 +59,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 press: () {
                   if (_formKey.currentState.validate()) {
                     //go to profile page
+                    Navigator.pushNamed(context, OtpScreen.routeName);
                   }
                 },
               ),
@@ -107,7 +109,7 @@ class _SignUpFormState extends State<SignUpForm> {
       validator: (value) {
         if (value.isEmpty) {
           return "";
-        } else if (password != confirm_password) {
+        } else if (password != value) {
           addError(error: kMatchPassError);
           return "";
         }

@@ -1,5 +1,6 @@
 
 import 'package:flutter/widgets.dart';
+import 'package:locker/screens/OTP/otp_screen.dart';
 import 'package:locker/screens/app/app_screen.dart';
 import 'package:locker/screens/forgot_password/forgot_password_screen.dart';
 import 'package:locker/screens/homepage/home_screen.dart';
@@ -13,4 +14,5 @@ final Map<String,WidgetBuilder> routes={
   ForgotPasswordScreen.routeName:(context)=>ForgotPasswordScreen(),
   HomeScreen.routeName:(context)=>HomeScreen(),
   SignUpScreen.routeName:(context)=>SignUpScreen(),
+  OtpScreen.routeName:(context)=>OtpScreen(),
 };
