@@ -22,7 +22,7 @@ const String kPassNullError = "Please Enter your password";
 const String kShortPassError = "Password is too short";
 const String kMatchPassError = "Passwords don't match";
 const String kNamelNullError = "Please Enter your username";
-
+const String kPhoneNumberNullError = "Please Enter your phone number";
 final headingStyle= TextStyle(
     fontSize: getProportionateScreenWidth(30),
       fontWeight: FontWeight.bold,

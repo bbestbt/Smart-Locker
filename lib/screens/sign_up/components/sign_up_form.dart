@@ -13,7 +13,7 @@ class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
   String username;
   String email;
-  // String phone;
+  String phone;
   String password;
   String confirm_password;
   final List<String> errors = [];
@@ -45,6 +45,9 @@ class _SignUpFormState extends State<SignUpForm> {
               SizedBox(height: getProportionateScreenHeight(30)),
               buildEmailFormField(),
               SizedBox(height: getProportionateScreenHeight(30)),
+              buildPhoneNumberFormField(),
+              SizedBox(height: getProportionateScreenHeight(30)),
+
               buildPasswordFormField(),
               SizedBox(height: getProportionateScreenHeight(30)),
               buildConfirmPasswordFormField(),
@@ -66,21 +69,18 @@ class _SignUpFormState extends State<SignUpForm> {
   TextFormField buildUsernameFormField() {
     return TextFormField(
       cursorColor: kPrimaryColor,
-      keyboardType: TextInputType.name,
+      //keyboardType: TextInputType.name,
       onSaved: (newValue) => username = newValue,
       onChanged: (value) {
-        if (value.isNotEmpty && errors.contains(kNamelNullError)) {
-          setState(() {
-            errors.remove(kNamelNullError);
-          });
+        if (value.isNotEmpty) {
+          removeError(error: kNamelNullError);
         }
         return null;
       },
       validator: (value) {
-        if (value.isEmpty && !errors.contains(kNamelNullError)) {
-          setState(() {
-            errors.add(kNamelNullError);
-          });
+        if (value.isEmpty) {
+          addError(error: kNamelNullError);
+          return "";
         }
         return null;
       },
@@ -190,4 +190,33 @@ class _SignUpFormState extends State<SignUpForm> {
       ),
     );
   }
+
+  TextFormField buildPhoneNumberFormField() {
+    return TextFormField(
+      keyboardType: TextInputType.phone,
+      onSaved: (newValue) => phone = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kPhoneNumberNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: kPhoneNumberNullError);
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: kPrimaryLightColor,
+        labelText: "Phone Number",
+        hintText: "Enter your phone number",
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+        suffixIcon:Icon(Icons.phone),
+      ),
+    );
+  }
+
 }
