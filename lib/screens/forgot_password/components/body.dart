@@ -84,12 +84,15 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
         return null;
       },
       decoration: InputDecoration(
+        filled: true,
+        fillColor: kPrimaryLightColor,
         labelText: "email",
         hintText: "enter an email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSuffixIcon(
-          svgIcon: "assets/icons/Mail.svg",
-        ),
+        suffixIcon: Icon(Icons.mail),
+        // CustomSuffixIcon(
+        //   svgIcon: "assets/icons/Mail.svg",
+        // ),
         ),
           ),
           SizedBox(height: getProportionateScreenHeight(30)),

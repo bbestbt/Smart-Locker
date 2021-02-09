@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:locker/components/default_button.dart';
 import 'package:locker/constants.dart';
+import 'package:locker/screens/app/components/app_content.dart';
 import 'package:locker/screens/sign_in/sign_in_screen.dart';
-import 'package:locker/screens/splash/components/splash_content.dart';
 import 'package:locker/size_config.dart';
 
 class Body extends StatefulWidget {
@@ -25,7 +25,7 @@ class _BodyState extends State<Body> {
                   //    image:"assets/images/splash_1.png",
                   //    text:"Welcome to Smart Locker",
                   //  ), )
-                  SplashContent(
+                  AppContent(
                 image: "assets/images/splash_1.png",
                 text: "Welcome to Smart Locker",
               ),

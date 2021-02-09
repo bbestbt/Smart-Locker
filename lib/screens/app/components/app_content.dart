@@ -3,8 +3,8 @@ import 'package:locker/constants.dart';
 
 import '../../../size_config.dart';
 
-class SplashContent extends StatelessWidget {
-  const SplashContent({
+class AppContent extends StatelessWidget {
+  const AppContent({
     Key key,
     this.text,
     this.image,

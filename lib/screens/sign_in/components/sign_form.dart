@@ -68,6 +68,7 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
+      cursorColor: kPrimaryColor,
       obscureText: true,
       onSaved: (newValue)=>password=newValue,
       onChanged: (value) {
@@ -102,18 +103,24 @@ class _SignFormState extends State<SignForm> {
         return null;
       },
       decoration: InputDecoration(
+        
+        filled: true,
+        fillColor: kPrimaryLightColor,
         labelText: "password",
+        // labelStyle: TextStyle(color: kPrimaryColor),
         hintText: "enter a password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSuffixIcon(
-          svgIcon: "assets/icons/Lock.svg",
-        ),
+        suffixIcon:Icon(Icons.lock),
+        // CustomSuffixIcon(
+        //   svgIcon: "assets/icons/Lock.svg",
+        // ),
       ),
     );
   }
 
   TextFormField buildUsernameFormField() {
     return TextFormField(
+      cursorColor: kPrimaryColor,
       keyboardType: TextInputType.name,
       onSaved: (newValue) => username = newValue,
       onChanged: (value) {
@@ -143,10 +150,13 @@ class _SignFormState extends State<SignForm> {
       decoration: InputDecoration(
         labelText: "username",
         hintText: "enter a username",
+        filled: true,
+        fillColor: kPrimaryLightColor,
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSuffixIcon(
-          svgIcon: "assets/icons/User.svg",
-        ),
+        suffixIcon:Icon(Icons.person)
+        //  CustomSuffixIcon(
+        //   svgIcon: "assets/icons/User.svg",
+        // ),
       ),
     );
   }

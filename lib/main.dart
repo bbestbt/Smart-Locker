@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:locker/constants.dart';
 import 'package:locker/routes.dart';
-import 'package:locker/screens/splash/splash_screen.dart';
+import 'package:locker/screens/app/app_screen.dart';
 import 'package:locker/theme.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: theme(),
       // home: SplashScreen(),
-      initialRoute: SplashScreen.routeName,
+      initialRoute: AppScreen.routeName,
       routes: routes,
     );
   }
