@@ -87,8 +87,8 @@ class _SignUpFormState extends State<SignUpForm> {
         return null;
       },
       decoration: InputDecoration(
-          labelText: "username",
-          hintText: "enter your username",
+          // labelText: "username",
+          hintText: "Username",
           filled: true,
           fillColor: kPrimaryLightColor,
           floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -118,8 +118,8 @@ class _SignUpFormState extends State<SignUpForm> {
       decoration: InputDecoration(
         filled: true,
           fillColor: kPrimaryLightColor,
-        labelText: "Confirm password",
-        hintText: "Re-enter your password",
+        // labelText: "Confirm password",
+        hintText: "Confirm password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.lock),
       ),
@@ -150,8 +150,8 @@ class _SignUpFormState extends State<SignUpForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Password",
-        hintText: "Enter your password",
+        // labelText: "Password",
+        hintText: "Password",
         filled: true,
           fillColor: kPrimaryLightColor,
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -185,8 +185,8 @@ class _SignUpFormState extends State<SignUpForm> {
       decoration: InputDecoration(
         filled: true,
         fillColor: kPrimaryLightColor,
-        labelText: "Email",
-        hintText: "Enter your email",
+        // labelText: "Email",
+        hintText: "Email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.mail),
       ),
@@ -213,8 +213,8 @@ class _SignUpFormState extends State<SignUpForm> {
       decoration: InputDecoration(
         filled: true,
         fillColor: kPrimaryLightColor,
-        labelText: "Phone Number",
-        hintText: "Enter your phone number",
+        // labelText: "Phone Number",
+        hintText: "Phone number",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon:Icon(Icons.phone),
       ),

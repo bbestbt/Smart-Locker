@@ -108,9 +108,9 @@ class _SignFormState extends State<SignForm> {
         
         filled: true,
         fillColor: kPrimaryLightColor,
-        labelText: "password",
+        // labelText: "password",
         // labelStyle: TextStyle(color: kPrimaryColor),
-        hintText: "enter a password",
+        hintText: "Password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon:Icon(Icons.lock),
         // CustomSuffixIcon(
@@ -150,8 +150,8 @@ class _SignFormState extends State<SignForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "username",
-        hintText: "enter a username",
+        // labelText: "username",
+        hintText: "Username",
         filled: true,
         fillColor: kPrimaryLightColor,
         floatingLabelBehavior: FloatingLabelBehavior.always,
