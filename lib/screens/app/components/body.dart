@@ -4,7 +4,6 @@ import 'package:locker/constants.dart';
 import 'package:locker/screens/app/components/app_content.dart';
 import 'package:locker/screens/sign_in/sign_in_screen.dart';
 
-
 class Body extends StatefulWidget {
   @override
   _BodyState createState() => _BodyState();
@@ -35,7 +34,7 @@ class _BodyState extends State<Body> {
                   child: Column(
                     children: <Widget>[
                       Spacer(
-                        flex: 3,
+                        flex: 2,
                       ),
                       DefaultButton(
                         text:"Get start",
