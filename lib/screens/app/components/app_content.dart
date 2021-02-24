@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:locker/constants.dart';
 
-import '../../../size_config.dart';
 
 class AppContent extends StatelessWidget {
   const AppContent({
@@ -20,8 +19,8 @@ class AppContent extends StatelessWidget {
         Text(
           "Smart Locker",
           style: TextStyle(
-            color: kPrimaryColor,
-            fontSize: getProportionateScreenWidth(36),
+            color:Color(0xFF6F35A5),
+            fontSize: 40,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -29,8 +28,8 @@ class AppContent extends StatelessWidget {
         Spacer(flex: 2),
         Image.asset(
           image,
-          height: getProportionateScreenHeight(265),
-          width: getProportionateScreenWidth(235),
+          height: 300,
+          width: 300,
         )
       ],
     );

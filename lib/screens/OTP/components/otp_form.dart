@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:locker/components/default_button.dart';
 import 'package:locker/constants.dart';
-import 'package:locker/size_config.dart';
+
 
 
 class OtpForm extends StatefulWidget {
@@ -43,7 +43,7 @@ class _OtpFormState extends State<OtpForm> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              SizedBox(width: getProportionateScreenWidth(60),
+              SizedBox(width:60,
               child: TextFormField(
                 autofocus: true,
                 obscureText:true ,
@@ -58,7 +58,7 @@ class _OtpFormState extends State<OtpForm> {
               ),
               ),
 
-              SizedBox(width: getProportionateScreenWidth(60),
+              SizedBox(width: 60,
               child: TextFormField(
                 focusNode: pin2,
                 obscureText:true ,
@@ -73,7 +73,7 @@ class _OtpFormState extends State<OtpForm> {
               ),
               ),
 
-              SizedBox(width: getProportionateScreenWidth(60),
+              SizedBox(width: 60,
               child: TextFormField(
                 focusNode: pin3,
                 obscureText:true ,
@@ -88,7 +88,7 @@ class _OtpFormState extends State<OtpForm> {
               ),
               ),
 
-              SizedBox(width: getProportionateScreenWidth(60),
+              SizedBox(width: 60,
               child: TextFormField(
                 focusNode: pin4,
                 obscureText:true ,
@@ -107,7 +107,7 @@ class _OtpFormState extends State<OtpForm> {
 
             ],
             ),
-            SizedBox(height: SizeConfig.screenHeight*0.15,),
+            SizedBox(height: 150),
             DefaultButton(text:"Continue",press:(){}),
             
         ],

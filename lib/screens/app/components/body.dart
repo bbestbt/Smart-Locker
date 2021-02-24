@@ -3,7 +3,7 @@ import 'package:locker/components/default_button.dart';
 import 'package:locker/constants.dart';
 import 'package:locker/screens/app/components/app_content.dart';
 import 'package:locker/screens/sign_in/sign_in_screen.dart';
-import 'package:locker/size_config.dart';
+
 
 class Body extends StatefulWidget {
   @override
@@ -19,14 +19,10 @@ class _BodyState extends State<Body> {
         child: Column(
           children: <Widget>[
             Expanded(
-              flex: 3,
+              flex: 4,
               child:
-                  //  PageView.builder(itemBuilder:(context,index)=>SplashContent(
-                  //    image:"assets/images/splash_1.png",
-                  //    text:"Welcome to Smart Locker",
-                  //  ), )
                   AppContent(
-                image: "assets/images/splash_1.png",
+                image: "assets/images/rented.png",
                 text: "Welcome to Smart Locker",
               ),
             ),
@@ -34,7 +30,7 @@ class _BodyState extends State<Body> {
                 flex: 2,
                 child: Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: getProportionateScreenWidth(20),
+                    horizontal: 20,
                   ),
                   child: Column(
                     children: <Widget>[

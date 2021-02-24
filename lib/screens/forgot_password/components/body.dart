@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:locker/components/custom_suffix_icon.dart';
 import 'package:locker/components/default_button.dart';
 import 'package:locker/components/form_error.dart';
 import 'package:locker/components/no_account.dart';
 import 'package:locker/constants.dart';
 import 'package:locker/screens/forgot_password/forgot_password_screen.dart';
-import 'package:locker/size_config.dart';
+
 
 class Body extends StatelessWidget {
   @override
@@ -15,21 +14,21 @@ class Body extends StatelessWidget {
           child: SingleChildScrollView(
                       child: Padding(
                         padding: EdgeInsets.symmetric(
-                          horizontal: getProportionateScreenWidth(20)
+                          horizontal: 20
                         ),
                         child: Column(
         children: [
-            SizedBox(height: SizeConfig.screenHeight*0.04),
+            SizedBox(height: 30),
             Text("Forgot password",
             style: TextStyle(
-              fontSize: getProportionateScreenWidth(30),
+              fontSize: 30,
               color:Colors.black,
               fontWeight: FontWeight.bold,
               ),
             ),
             
             Text("Enter your email",textAlign: TextAlign.center,),
-            SizedBox(height: SizeConfig.screenHeight*0.04),
+            SizedBox(height: 30),
             ForgotPasswordForm(),
         ],
 
@@ -60,44 +59,40 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => email = newValue,
       onChanged: (value) {
-        if (value.isNotEmpty && errors.contains(kEmailNullError)) {
+        if (value.isNotEmpty && errors.contains("Please Enter your email")) {
           setState(() {
-            errors.remove(kEmailNullError);
+            errors.remove("Please Enter your email");
           });
         }
         return null;
       },
       validator: (value) {
-        if (value.isEmpty && !errors.contains(kEmailNullError)) {
+        if (value.isEmpty && !errors.contains("Please Enter your email")) {
           setState(() {
             errors.add(
-                // "please enter username"
-                kEmailNullError);
+                "Please Enter your email");
           });
           }
           else if (!emailValidatorRegExp.hasMatch(value) &&
-              !errors.contains(kInvalidEmailError)){
+              !errors.contains("Please Enter Valid Email")){
                 setState(() {
-                  errors.add(kInvalidEmailError);
+                  errors.add("Please Enter Valid Email");
                 });
         }
         return null;
       },
       decoration: InputDecoration(
         filled: true,
-        fillColor: kPrimaryLightColor,
+        fillColor: Color(0xFFF1E6FF),
         labelText: "email",
         hintText: "enter an email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.mail),
-        // CustomSuffixIcon(
-        //   svgIcon: "assets/icons/Mail.svg",
-        // ),
         ),
           ),
-          SizedBox(height: getProportionateScreenHeight(30)),
+          SizedBox(height:20),
           FormError(errors:errors),
-          SizedBox(height: SizeConfig.screenHeight*0.04),
+          SizedBox(height:30),
           DefaultButton(text:"Continue",press:(){
             if(_formKey.currentState.validate()){
               //add code

@@ -4,7 +4,7 @@ import 'package:locker/screens/booked/booked_screen.dart';
 import 'package:locker/screens/booked/components/body.dart';
 import 'package:locker/screens/homepage/home_screen.dart';
 import 'package:locker/screens/sign_in/sign_in_screen.dart';
-import 'package:locker/size_config.dart';
+
 
 const locationData = [
   {
@@ -50,7 +50,7 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kPrimaryColor,
+      backgroundColor: Color(0xFF6F35A5),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
@@ -63,7 +63,7 @@ class Body extends StatelessWidget {
                     IconButton(
                       icon: Icon(
                         Icons.arrow_back_ios,
-                        color: kPrimaryLightColor,
+                        color: Color(0xFFF1E6FF),
                       ),
                       onPressed: () {
                         Navigator.pushNamed(context, SignInScreen.routeName);
@@ -72,7 +72,7 @@ class Body extends StatelessWidget {
                     IconButton(
                       icon: Icon(
                         Icons.search,
-                        color: kPrimaryLightColor,
+                        color: Color(0xFFF1E6FF),
                       ),
                       onPressed: () {},
                     ),
@@ -111,7 +111,7 @@ class Body extends StatelessWidget {
                       LocationCard(locationData[2]),
                       LocationCard(locationData[3]),
                       LocationCard(locationData[4]),
-                      // LocationCard(locationData[5]),
+                      LocationCard(locationData[5]),
                     ],
                   ),
                 ),
@@ -132,9 +132,9 @@ class LocationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(right:5),
-      margin: EdgeInsets.symmetric(vertical: 10),
+      margin: EdgeInsets.symmetric(vertical: 5),
       width: MediaQuery.of(context).size.width,
-      height: getProportionateScreenHeight(100),
+      height:100,
       decoration: BoxDecoration(
         color: location['bg'],
         borderRadius: BorderRadius.circular(20),
@@ -142,7 +142,7 @@ class LocationCard extends StatelessWidget {
       child: Stack(
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 40, left: 30),
+            padding: EdgeInsets.only(top: 35, left: 30),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -161,7 +161,7 @@ class LocationCard extends StatelessWidget {
                     Navigator.push(context,MaterialPageRoute(builder: (context)=>
                     DetailScreen(location)));
                   },
-                  color: kPrimaryLightColor,
+                  color: Color(0xFFF1E6FF),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                   child: Text("View details",
                   style: TextStyle(),

@@ -3,7 +3,7 @@ import 'package:locker/constants.dart';
 
 ThemeData theme() {
   return ThemeData(
-    cursorColor: kPrimaryColor,
+    cursorColor:Color(0xFF6F35A5),
     scaffoldBackgroundColor: Colors.white,
     fontFamily: "Poppins",
     appBarTheme: appBarTheme(),
@@ -16,7 +16,7 @@ ThemeData theme() {
 InputDecorationTheme inputDecorationTheme() {
   OutlineInputBorder outlineInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(28),
-    borderSide: BorderSide(color: kTextColor),
+    borderSide: BorderSide(color:  Color(0xFF757575)),
     gapPadding: 10,
   );
   return InputDecorationTheme(
@@ -30,8 +30,8 @@ InputDecorationTheme inputDecorationTheme() {
 
 TextTheme textTheme() {
   return TextTheme(
-    bodyText1: TextStyle(color: kTextColor),
-    bodyText2: TextStyle(color: kTextColor),
+    bodyText1: TextStyle(color:  Color(0xFF757575)),
+    bodyText2: TextStyle(color:  Color(0xFF757575)),
   );
 }
 

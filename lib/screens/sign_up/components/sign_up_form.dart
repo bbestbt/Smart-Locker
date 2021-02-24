@@ -3,7 +3,7 @@ import 'package:locker/components/default_button.dart';
 import 'package:locker/components/form_error.dart';
 import 'package:locker/constants.dart';
 import 'package:locker/screens/OTP/otp_screen.dart';
-import 'package:locker/size_config.dart';
+
 
 class SignUpForm extends StatefulWidget {
   @override
@@ -39,21 +39,20 @@ class _SignUpFormState extends State<SignUpForm> {
         key: _formKey,
         child: Padding(
           padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+              EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
               buildUsernameFormField(),
-              SizedBox(height: getProportionateScreenHeight(30)),
+              SizedBox(height: 20),
               buildEmailFormField(),
-              SizedBox(height: getProportionateScreenHeight(30)),
+              SizedBox(height: 20),
               buildPhoneNumberFormField(),
-              SizedBox(height: getProportionateScreenHeight(30)),
-
+              SizedBox(height:20),
               buildPasswordFormField(),
-              SizedBox(height: getProportionateScreenHeight(30)),
+              SizedBox(height: 20),
               buildConfirmPasswordFormField(),
               FormError(errors: errors),
-              SizedBox(height: getProportionateScreenHeight(30)),
+              SizedBox(height: 20),
               DefaultButton(
                 text: "Register",
                 press: () {
@@ -70,18 +69,18 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildUsernameFormField() {
     return TextFormField(
-      cursorColor: kPrimaryColor,
+      cursorColor: Color(0xFF6F35A5),
       //keyboardType: TextInputType.name,
       onSaved: (newValue) => username = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: kNamelNullError);
+          removeError(error: "Please Enter your username");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: kNamelNullError);
+          addError(error: "Please Enter your username");
           return "";
         }
         return null;
@@ -90,7 +89,7 @@ class _SignUpFormState extends State<SignUpForm> {
           // labelText: "username",
           hintText: "Username",
           filled: true,
-          fillColor: kPrimaryLightColor,
+          fillColor: Color(0xFFF1E6FF),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: Icon(Icons.person)),
     );
@@ -102,7 +101,7 @@ class _SignUpFormState extends State<SignUpForm> {
       onSaved: (newValue) => confirm_password = newValue,
       onChanged: (value) {
         if (password == confirm_password) {
-          removeError(error: kMatchPassError);
+          removeError(error: "Password doesn't match");
         }
         return null;
       },
@@ -110,14 +109,14 @@ class _SignUpFormState extends State<SignUpForm> {
         if (value.isEmpty) {
           return "";
         } else if (password != value) {
-          addError(error: kMatchPassError);
+          addError(error: "Password doesn't match");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
         filled: true,
-          fillColor: kPrimaryLightColor,
+          fillColor: Color(0xFFF1E6FF),
         // labelText: "Confirm password",
         hintText: "Confirm password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -132,19 +131,19 @@ class _SignUpFormState extends State<SignUpForm> {
       onSaved: (newValue) => password = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: kPassNullError);
+          removeError(error: "Please Enter your password");
         } else if (value.length >= 8) {
-          removeError(error: kShortPassError);
+          removeError(error: "Password is too short");
         }
         password = value;
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: kPassNullError);
+          addError(error: "Please Enter your password");
           return "";
         } else if (value.length < 8) {
-          addError(error: kShortPassError);
+          addError(error: "Password is too short");
           return "";
         }
         return null;
@@ -153,7 +152,7 @@ class _SignUpFormState extends State<SignUpForm> {
         // labelText: "Password",
         hintText: "Password",
         filled: true,
-          fillColor: kPrimaryLightColor,
+          fillColor: Color(0xFFF1E6FF),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: Icon(Icons.lock),
       ),
@@ -166,25 +165,25 @@ class _SignUpFormState extends State<SignUpForm> {
       onSaved: (newValue) => email = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: kEmailNullError);
+          removeError(error: "Please Enter your email");
         } else if (emailValidatorRegExp.hasMatch(value)) {
-          removeError(error: kInvalidEmailError);
+          removeError(error: "Please Enter Valid Email");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: kEmailNullError);
+          addError(error: "Please Enter your email");
           return "";
         } else if (!emailValidatorRegExp.hasMatch(value)) {
-          addError(error: kInvalidEmailError);
+          addError(error: "Please Enter Valid Email");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
         filled: true,
-        fillColor: kPrimaryLightColor,
+        fillColor: Color(0xFFF1E6FF),
         // labelText: "Email",
         hintText: "Email",
         floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -199,20 +198,20 @@ class _SignUpFormState extends State<SignUpForm> {
       onSaved: (newValue) => phone = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
-          removeError(error: kPhoneNumberNullError);
+          removeError(error: "Please Enter your phone number");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: kPhoneNumberNullError);
+          addError(error: "Please Enter your phone number");
           return "";
         }
         return null;
       },
       decoration: InputDecoration(
         filled: true,
-        fillColor: kPrimaryLightColor,
+        fillColor: Color(0xFFF1E6FF),
         // labelText: "Phone Number",
         hintText: "Phone number",
         floatingLabelBehavior: FloatingLabelBehavior.always,

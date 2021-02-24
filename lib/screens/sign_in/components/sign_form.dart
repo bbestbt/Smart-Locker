@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:locker/components/custom_suffix_icon.dart';
 import 'package:locker/components/default_button.dart';
 import 'package:locker/components/form_error.dart';
 import 'package:locker/constants.dart';
 import 'package:locker/screens/forgot_password/forgot_password_screen.dart';
 import 'package:locker/screens/homepage/home_screen.dart';
-import 'package:locker/size_config.dart';
+
 
 
 class SignForm extends StatefulWidget {
@@ -42,15 +41,15 @@ class _SignFormState extends State<SignForm> {
         children: [
           buildUsernameFormField(),
           SizedBox(
-            height: getProportionateScreenWidth(20),
+            height: 20,
           ),
           buildPasswordFormField(),
           SizedBox(
-            height: getProportionateScreenWidth(20),
+            height: 20,
           ),
          
           Row(children: [
-            Checkbox(value: remember, activeColor: kPrimaryColor,onChanged: (value){
+            Checkbox(value: remember, activeColor: Color(0xFF6F35A5),onChanged: (value){
                 setState(() {
                   remember=value;
                   
@@ -83,23 +82,23 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
-      cursorColor: kPrimaryColor,
+      cursorColor: Color(0xFF6F35A5),
       obscureText: true,
       onSaved: (newValue)=>password=newValue,
       onChanged: (value) {
          if (value.isNotEmpty) {
-          removeError(error: kPassNullError);
+          removeError(error: "Please Enter your password");
         } else if (value.length >= 8) {
-          removeError(error: kShortPassError);
+          removeError(error: "Password is too short");
         }
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
-          addError(error: kPassNullError);
+          addError(error: "Please Enter your password");
           return "";
         } else if (value.length < 8) {
-          addError(error: kShortPassError);
+          addError(error: "Password is too short");
           return "";
         }
         return null;
@@ -107,45 +106,36 @@ class _SignFormState extends State<SignForm> {
       decoration: InputDecoration(
         
         filled: true,
-        fillColor: kPrimaryLightColor,
+        fillColor: Color(0xFFF1E6FF),
         // labelText: "password",
-        // labelStyle: TextStyle(color: kPrimaryColor),
+        // labelStyle: TextStyle(color: Color(0xFF6F35A5)),
         hintText: "Password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon:Icon(Icons.lock),
-        // CustomSuffixIcon(
-        //   svgIcon: "assets/icons/Lock.svg",
-        // ),
       ),
     );
   }
 
   TextFormField buildUsernameFormField() {
     return TextFormField(
-      cursorColor: kPrimaryColor,
+      cursorColor: Color(0xFF6F35A5),
       keyboardType: TextInputType.name,
       onSaved: (newValue) => username = newValue,
       onChanged: (value) {
-        if (value.isNotEmpty && errors.contains(kNamelNullError)) {
+        if (value.isNotEmpty && errors.contains("Please Enter your username")) {
           setState(() {
-            errors.remove(kNamelNullError);
+            errors.remove("Please Enter your username");
           });
         }
         return null;
       },
       validator: (value) {
-        if (value.isEmpty && !errors.contains(kNamelNullError)) {
+        if (value.isEmpty && !errors.contains("Please Enter your username")) {
           setState(() {
             errors.add(
-                // "please enter username"
-                kNamelNullError);
+                "Please Enter your username");
           });
-          //}
-          // else if (!emailValidatorRegExp.hasMatch(value) &&
-          //     !errors.contains(kInvalidEmailError)){
-          //       setState(() {
-          //         errors.add(kInvalidEmailError);
-          //       });
+  
         }
         return null;
       },
@@ -153,12 +143,9 @@ class _SignFormState extends State<SignForm> {
         // labelText: "username",
         hintText: "Username",
         filled: true,
-        fillColor: kPrimaryLightColor,
+        fillColor: Color(0xFFF1E6FF),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon:Icon(Icons.person)
-        //  CustomSuffixIcon(
-        //   svgIcon: "assets/icons/User.svg",
-        // ),
       ),
     );
   }
