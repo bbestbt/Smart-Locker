@@ -13,7 +13,7 @@ class Body extends StatelessWidget {
               Text(
                 "Locker",
                 style: TextStyle(
-                  color: Color(0xFF6F35A5),
+                  color: Colors.black,
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),

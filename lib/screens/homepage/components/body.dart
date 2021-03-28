@@ -69,13 +69,13 @@ class Body extends StatelessWidget {
                         Navigator.pushNamed(context, SignInScreen.routeName);
                       },
                     ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.search,
-                        color: Color(0xFFF1E6FF),
-                      ),
-                      onPressed: () {},
-                    ),
+                    // IconButton(
+                    //   icon: Icon(
+                    //     Icons.search,
+                    //     color: Color(0xFFF1E6FF),
+                    //   ),
+                    //   onPressed: () {},
+                    // ),
                   ],
                 ),
               ),
