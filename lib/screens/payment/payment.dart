@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:locker/screens/booked_detail/booked_form.dart';
-import 'package:locker/screens/sign_in/components/sign_form.dart';
 
-class Body extends StatelessWidget {
+class PaymentScreen extends StatelessWidget {
+  static String routeName="/payment";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
             children: [
+           
               Text(
-                "Locker",
+                "Payment",
                 style: TextStyle(
                   color: Color(0xFF6F35A5),
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
+                  
                 ),
               ),
               SizedBox(height: 50),
-             BookedForm(),
-            ],
+               ],
           ),
         ),
       ),
+           
+      
     );
   }
 }

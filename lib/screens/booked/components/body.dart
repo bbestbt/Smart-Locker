@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:locker/constants.dart';
 import 'package:locker/screens/booked/booked_screen.dart';
+import 'package:locker/screens/booked/dialog.dart';
 import 'package:locker/screens/booked_detail/bookdetail_screen.dart';
 import 'package:locker/screens/homepage/home_screen.dart';
 import 'package:locker/screens/sign_in/sign_in_screen.dart';
@@ -137,6 +138,8 @@ class Locker extends StatelessWidget {
             onPressed: () {
                Navigator.push(context,MaterialPageRoute(builder: (context)=>
                     BookDetailScreen()));
+              //display error (booked)
+             // showAlertDialog(context);
             },
             color: Colors.purple,
             shape:
