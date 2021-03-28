@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:locker/screens/OTP/otp_screen.dart';
 import 'package:locker/screens/app/app_screen.dart';
 import 'package:locker/screens/booked/booked_screen.dart';
+import 'package:locker/screens/booked_detail/bookdetail_screen.dart';
 import 'package:locker/screens/forgot_password/forgot_password_screen.dart';
 import 'package:locker/screens/homepage/home_screen.dart';
 import 'package:locker/screens/sign_in/sign_in_screen.dart';
@@ -17,4 +18,5 @@ final Map<String,WidgetBuilder> routes={
   SignUpScreen.routeName:(context)=>SignUpScreen(),
   OtpScreen.routeName:(context)=>OtpScreen(),
   BookedScreen.routeName:(context)=>BookedScreen(),
+  BookDetailScreen.routeName:(context)=>BookDetailScreen(),
 };
