@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:locker/components/default_button.dart';
 import 'package:locker/screens/payment/payment.dart';
+import 'package:locker/screens/payment/scan.dart';
 
 class BookedForm extends StatefulWidget {
   @override
@@ -98,7 +99,9 @@ class _BookedFormState extends State<BookedForm> {
           DefaultButton(
             text: "Confirm",
             press: () {
-              Navigator.pushNamed(context, PaymentScreen.routeName);
+              // Navigator.pushNamed(context, PaymentScreen.routeName);
+              Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => ScanPage()));
             },
           ),
         ],
