@@ -1,6 +1,7 @@
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:locker/components/default_button.dart';
 
 class ScanPage extends StatefulWidget {
   @override
@@ -47,12 +48,15 @@ class _ScanPageState extends State<ScanPage> {
           style: new TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
         ),
       ),
+      
       floatingActionButton: FloatingActionButton.extended(
         icon: Icon(Icons.camera_alt),
         label: Text("Scan"),
         onPressed: _scanQR,
+        backgroundColor: Color(0xFF6F35A5),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+     floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      
     );
   
   }

@@ -21,6 +21,6 @@ final Map<String,WidgetBuilder> routes={
   OtpScreen.routeName:(context)=>OtpScreen(),
   BookedScreen.routeName:(context)=>BookedScreen(),
   BookDetailScreen.routeName:(context)=>BookDetailScreen(),
-  PaymentScreen.routeName:(context)=>PaymentScreen(),
+ // PaymentScreen.routeName:(context)=>PaymentScreen(),
  
 };
