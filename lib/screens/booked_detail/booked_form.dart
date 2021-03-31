@@ -59,7 +59,7 @@ class _BookedFormState extends State<BookedForm> {
         children: [
           Row(
             children: [
-              Text("Date : "),
+              Text("Date : ", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color:Colors.black),),
               Spacer(flex: 2),
               RaisedButton(
                 child: Text('Select Date'),
@@ -69,10 +69,12 @@ class _BookedFormState extends State<BookedForm> {
               ),
             ],
           ),
+           SizedBox(height: 10,),
           Text('Date selected: ${_date.toString()}'),
+          SizedBox(height: 20,),
           Row(
             children: [
-              Text('From : '),
+              Text('From : ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color:Colors.black),),
               Spacer(flex: 2),
               RaisedButton(
                 child: Text('Select Time'),
@@ -82,10 +84,12 @@ class _BookedFormState extends State<BookedForm> {
               ),
             ],
           ),
+           SizedBox(height: 10,),
           Text('From Time selected: ${_fromTime.toString()}'),
+          SizedBox(height: 20,),
           Row(
             children: [
-              Text('To : '),
+              Text('To : ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color:Colors.black),),
               Spacer(flex: 2),
               RaisedButton(
                 child: Text('Select Time'),
@@ -95,7 +99,9 @@ class _BookedFormState extends State<BookedForm> {
               ),
             ],
           ),
+           SizedBox(height: 10,),
           Text('To Time selected: ${_toTime.toString()}'),
+          SizedBox(height: 20,),
           DefaultButton(
             text: "Confirm",
             press: () {

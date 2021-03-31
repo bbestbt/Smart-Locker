@@ -132,8 +132,11 @@ class _SignUpFormState extends State<SignUpForm> {
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your password");
-        } else if (value.length >= 8) {
+        } else if (value.length >= 6) {
           removeError(error: "Password is too short");
+        }
+        else if (RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
+          removeError(error: "Please Enter Valid Password");
         }
         password = value;
         return null;
@@ -142,9 +145,13 @@ class _SignUpFormState extends State<SignUpForm> {
         if (value.isEmpty) {
           addError(error: "Please Enter your password");
           return "";
-        } else if (value.length < 8) {
+        } else if (value.length < 6) {
           addError(error: "Password is too short");
           return "";
+        }
+        else if (!(RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')).hasMatch(value)) {
+          addError(error: "Please Enter Valid Password");
+           return "";
         }
         return null;
       },
@@ -166,7 +173,7 @@ class _SignUpFormState extends State<SignUpForm> {
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your email");
-        } else if (emailValidatorRegExp.hasMatch(value)) {
+        } else if (RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)) {
           removeError(error: "Please Enter Valid Email");
         }
         return null;
@@ -175,10 +182,11 @@ class _SignUpFormState extends State<SignUpForm> {
         if (value.isEmpty) {
           addError(error: "Please Enter your email");
           return "";
-        } else if (!emailValidatorRegExp.hasMatch(value)) {
+        } else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")).hasMatch(value)) {
           addError(error: "Please Enter Valid Email");
           return "";
         }
+        
         return null;
       },
       decoration: InputDecoration(

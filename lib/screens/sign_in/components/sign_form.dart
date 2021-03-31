@@ -88,8 +88,11 @@ class _SignFormState extends State<SignForm> {
       onChanged: (value) {
          if (value.isNotEmpty) {
           removeError(error: "Please Enter your password");
-        } else if (value.length >= 8) {
+        } else if (value.length >= 6) {
           removeError(error: "Password is too short");
+        }
+        else if (RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
+          removeError(error: "Please Enter Valid Password");
         }
         return null;
       },
@@ -97,9 +100,13 @@ class _SignFormState extends State<SignForm> {
         if (value.isEmpty) {
           addError(error: "Please Enter your password");
           return "";
-        } else if (value.length < 8) {
+        } else if (value.length < 6) {
           addError(error: "Password is too short");
           return "";
+        }
+         else if (!(RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')).hasMatch(value)) {
+          addError(error: "Please Enter Valid Password");
+           return "";
         }
         return null;
       },

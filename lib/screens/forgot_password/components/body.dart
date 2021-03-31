@@ -73,7 +73,7 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                 "Please Enter your email");
           });
           }
-          else if (!emailValidatorRegExp.hasMatch(value) &&
+          else if (!(RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+")).hasMatch(value) &&
               !errors.contains("Please Enter Valid Email")){
                 setState(() {
                   errors.add("Please Enter Valid Email");
