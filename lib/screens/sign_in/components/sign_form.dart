@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:locker/components/default_button.dart';
 import 'package:locker/components/form_error.dart';
 import 'package:locker/constants.dart';
+import 'package:locker/screens/booked/components/body.dart';
 import 'package:locker/screens/forgot_password/forgot_password_screen.dart';
 import 'package:locker/screens/homepage/home_screen.dart';
 
@@ -71,7 +72,9 @@ class _SignFormState extends State<SignForm> {
               if (_formkey.currentState.validate()) {
                 _formkey.currentState.save();
                 //valid
-                Navigator.pushNamed(context, HomeScreen.routeName);
+               // Navigator.pushNamed(context, HomeScreen.routeName);
+               Navigator.push(context,MaterialPageRoute(builder: (context)=>
+                     DetailScreen()));
               }
             },
           )

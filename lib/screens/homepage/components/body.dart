@@ -158,8 +158,8 @@ class LocationCard extends StatelessWidget {
                 MaterialButton(
                   onPressed: () {
                    // Navigator.pushNamed(context, BookedScreen.routeName);
-                    Navigator.push(context,MaterialPageRoute(builder: (context)=>
-                    DetailScreen(location)));
+                    // Navigator.push(context,MaterialPageRoute(builder: (context)=>
+                    // DetailScreen(location)));
                   },
                   color: Color(0xFFF1E6FF),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

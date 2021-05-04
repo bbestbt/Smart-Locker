@@ -21,9 +21,9 @@ var lockerList = [
 ];
 
 class DetailScreen extends StatelessWidget {
-  final location;
+  // final location;
 
-  DetailScreen(this.location);
+  // DetailScreen(this.location);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
