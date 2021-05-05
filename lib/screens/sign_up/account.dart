@@ -6,8 +6,9 @@ class Account {
   final String password;
   final String phoneNumber;
   final String email;
+  final String confirmPassword;
 
-  Account({@required this.userName,@required this.password,@required this.phoneNumber,@required this.email});
+  Account({@required this.userName,@required this.password,@required this.phoneNumber,@required this.email,@required this.confirmPassword});
 
   // factory Account.fromJson(Map<String, dynamic> json) {
   //   return Account(
@@ -26,6 +27,7 @@ class Account {
       'password': password,
       'email': email,
       'phoneNumber': phoneNumber,
+      'confirmPassword':confirmPassword,
     };
 }
 }

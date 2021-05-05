@@ -21,12 +21,13 @@ class _SignUpFormState extends State<SignUpForm> {
   String email;
   String phoneNumber;
   String password;
-  String confirm_password;
+  String confirmPassword;
   final List<String> errors = [];
   final TextEditingController _controllerUsername = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
+  final TextEditingController _controllerConfirm = TextEditingController();
   AccountService get accountService => GetIt.I<AccountService>();
   String errorMessage;
   bool _isLoading = false;
@@ -91,7 +92,8 @@ class _SignUpFormState extends State<SignUpForm> {
                         userName: _controllerUsername.text,
                         password: _controllerPassword.text,
                         phoneNumber: _controllerPhone.text,
-                        email: _controllerEmail.text);
+                        email: _controllerEmail.text,
+                        confirmPassword:_controllerConfirm.text);
                     final result =
                         await accountService.createAccount(newAccount);
                     setState(() {
@@ -101,7 +103,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     final text = result.error
                         ? (result.errorMessage ?? 'error occur')
                         : 'account created';
-                    // print(result.errorMessage);
+                  //   print(result.error);
                     showDialog(
                         context: context,
                         builder: (_) => AlertDialog(
@@ -171,11 +173,11 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildConfirmPasswordFormField() {
     return TextFormField(
-      // controller: _controllerPassword,
+      controller: _controllerConfirm,
       obscureText: true,
-      onSaved: (newValue) => confirm_password = newValue,
+      onSaved: (newValue) => confirmPassword = newValue,
       onChanged: (value) {
-        if (password == confirm_password) {
+        if (password == confirmPassword) {
           removeError(error: "Password doesn't match");
         }
         return null;
