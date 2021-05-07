@@ -13,7 +13,7 @@ class BookedForm extends StatefulWidget {
 class _BookedFormState extends State<BookedForm> {
   DateTime _date = new DateTime.now();
   TimeOfDay _fromTime = new TimeOfDay.now();
-  TimeOfDay _toTime = new TimeOfDay.now();
+ // TimeOfDay _toTime = new TimeOfDay.now();
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(

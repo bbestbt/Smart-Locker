@@ -6,28 +6,53 @@ import 'package:locker/constants.dart';
 import 'package:locker/screens/booked/components/body.dart';
 import 'package:locker/screens/forgot_password/forgot_password_screen.dart';
 import 'package:locker/screens/homepage/home_screen.dart';
-import 'package:locker/screens/sign_in/login.dart';
+import 'package:locker/screens/sign_in/loginModel.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class SignForm extends StatefulWidget {
   @override
   _SignFormState createState() => _SignFormState();
 }
 
+Future<LoginModel> login(String userName, String password) async {
+  var response = await http.post(
+      Uri.https('smart-locker-api.azurewebsites.net', 'api/Account/login'),
+      headers: {
+        "accept": "application/json",
+        "content-type": "application/json"
+      },
+      body: jsonEncode({
+        'userName': userName,
+        'password': password,
+      }));
+  var data = response.body;
+  print(data);
+  if (response.statusCode == 201) {
+    String responseString = response.body;
+    loginModelFromJson(responseString);
+  } else
+    return null;
+}
+
 class _SignFormState extends State<SignForm> {
   final _formkey = GlobalKey<FormState>();
-  String username;
+  String userName;
   String password;
   bool remember = false;
   final List<String> errors = [];
-  LoginRequest requestModel;
-  GlobalKey<FormState> globalFormKey = new GlobalKey<FormState>();
-  bool isApiCallProcess = false;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    requestModel = new LoginRequest();
-  }
+  final TextEditingController _controllerUsername = TextEditingController();
+  final TextEditingController _controllerPassword = TextEditingController();
+  LoginModel _loginModel;
+
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   _controllerUsername.dispose();
+  //   _controllerPassword.dispose();
+  //   super.dispose();
+  // }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -46,8 +71,7 @@ class _SignFormState extends State<SignForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      //  key: _formkey,
-      key: globalFormKey,
+      key: _formkey,
       child: Column(
         children: [
           buildUsernameFormField(),
@@ -82,29 +106,31 @@ class _SignFormState extends State<SignForm> {
           FormError(errors: errors),
           DefaultButton(
               text: "Login",
-              press: () {
-                // if (_formkey.currentState.validate()) {
-                //   _formkey.currentState.save();
+              press: () async {
+                if (_formkey.currentState.validate()) {
+                  //   _formkey.currentState.save();
 
-                //valid
-                // Navigator.pushNamed(context, HomeScreen.routeName);
+                  var userName = _controllerUsername.text;
+                  var password = _controllerPassword.text;
 
-                // if (validateAndSave()) {
-                //   //  print(requestModel.toJson());
-                //   setState(() {
-                //     isApiCallProcess = true;
-                //   });
-                //   APIService apiService = new APIService();
-                //   apiService.login(requestModel).then((value) => {
-                //         setState(() {
-                //           isApiCallProcess = false;
-                //         })
-                //       });
-                // }
+                  LoginModel data = await login(
+                    userName,
+                    password,
+                  );
+                  setState(() {
+                    _loginModel = data;
+                  });
+
+                  // var rsp=await loginUser(userName,password);
+                  // print(rsp);
 
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => DetailScreen()));
-                
+
+                  //valid
+                  // Navigator.pushNamed(context, HomeScreen.routeName);
+
+                }
               }),
         ],
       ),
@@ -113,10 +139,10 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
+      controller: _controllerPassword,
       cursorColor: Color(0xFF6F35A5),
       obscureText: true,
-      // onSaved: (newValue)=>password=newValue,
-      onSaved: (input) => requestModel.password = input,
+      onSaved: (newValue) => password = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your password");
@@ -158,10 +184,10 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildUsernameFormField() {
     return TextFormField(
+      controller: _controllerUsername,
       cursorColor: Color(0xFF6F35A5),
       keyboardType: TextInputType.name,
-      //  onSaved: (newValue) => username = newValue,
-      onSaved: (input) => requestModel.userName = input,
+      onSaved: (newValue) => userName = newValue,
       onChanged: (value) {
         if (value.isNotEmpty && errors.contains("Please Enter your username")) {
           setState(() {
@@ -186,14 +212,5 @@ class _SignFormState extends State<SignForm> {
           floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: Icon(Icons.person)),
     );
-  }
-
-  bool validateAndSave() {
-    final form = globalFormKey.currentState;
-    if (form.validate()) {
-      form.save();
-      return true;
-    }
-    return false;
   }
 }
