@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:locker/screens/sign_in/login.dart';
-import 'package:locker/screens/sign_up/account.dart';
 
 class APIService{
   Future<LoginResponse> login(LoginRequest requestModel) async{

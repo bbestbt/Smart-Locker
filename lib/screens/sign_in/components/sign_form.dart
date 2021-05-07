@@ -89,22 +89,22 @@ class _SignFormState extends State<SignForm> {
                 //valid
                 // Navigator.pushNamed(context, HomeScreen.routeName);
 
-                if (validateAndSave()) {
-                  //  print(requestModel.toJson());
-                  setState(() {
-                    isApiCallProcess = true;
-                  });
-                  APIService apiService = new APIService();
-                  apiService.login(requestModel).then((value) => {
-                        setState(() {
-                          isApiCallProcess = false;
-                        })
-                      });
-                }
+                // if (validateAndSave()) {
+                //   //  print(requestModel.toJson());
+                //   setState(() {
+                //     isApiCallProcess = true;
+                //   });
+                //   APIService apiService = new APIService();
+                //   apiService.login(requestModel).then((value) => {
+                //         setState(() {
+                //           isApiCallProcess = false;
+                //         })
+                //       });
+                // }
 
-                //   Navigator.push(context,
-                //       MaterialPageRoute(builder: (context) => DetailScreen()));
-                //
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => DetailScreen()));
+                
               }),
         ],
       ),

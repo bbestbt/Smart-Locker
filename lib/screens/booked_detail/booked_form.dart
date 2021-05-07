@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:locker/components/default_button.dart';
+import 'package:locker/screens/booked_detail/dialog.dart';
+import 'package:locker/screens/payment/card/credit.dart';
 import 'package:locker/screens/payment/payment.dart';
-import 'package:locker/screens/payment/scan.dart';
+import 'package:locker/screens/payment/scan/scan.dart';
 
 class BookedForm extends StatefulWidget {
   @override
@@ -39,17 +41,17 @@ class _BookedFormState extends State<BookedForm> {
     }
   }
 
-  Future<Null> _selectToTime(BuildContext context) async {
-    final TimeOfDay picked =
-        await showTimePicker(context: context, initialTime: _toTime);
+  // Future<Null> _selectToTime(BuildContext context) async {
+  //   final TimeOfDay picked =
+  //       await showTimePicker(context: context, initialTime: _toTime);
 
-    if (picked != null && picked != _toTime) {
-      print('Time selected: ${_toTime.toString()}');
-      setState(() {
-        _toTime = picked;
-      });
-    }
-  }
+  //   if (picked != null && picked != _toTime) {
+  //     print('Time selected: ${_toTime.toString()}');
+  //     setState(() {
+  //       _toTime = picked;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -87,27 +89,33 @@ class _BookedFormState extends State<BookedForm> {
            SizedBox(height: 10,),
           Text('From Time selected: ${_fromTime.toString()}'),
           SizedBox(height: 20,),
-          Row(
-            children: [
-              Text('To : ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color:Colors.black),),
-              Spacer(flex: 2),
-              RaisedButton(
-                child: Text('Select Time'),
-                onPressed: () {
-                  _selectToTime(context);
-                },
-              ),
-            ],
-          ),
-           SizedBox(height: 10,),
-          Text('To Time selected: ${_toTime.toString()}'),
-          SizedBox(height: 20,),
+          // Row(
+          //   children: [
+          //     Text('To : ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color:Colors.black),),
+          //     Spacer(flex: 2),
+          //     RaisedButton(
+          //       child: Text('Select Time'),
+          //       onPressed: () {
+          //         _selectToTime(context);
+          //       },
+          //     ),
+          //   ],
+          // ),
+          //  SizedBox(height: 10,),
+          // Text('To Time selected: ${_toTime.toString()}'),
+         // SizedBox(height: 20,),
           DefaultButton(
             text: "Confirm",
             press: () {
-              // Navigator.pushNamed(context, PaymentScreen.routeName);
+            Dialogs.yesDialog(context, "Booked Locker", "Done");
+            },
+          ),
+          SizedBox(height: 20,),
+           DefaultButton(
+            text: "Stop",
+            press: () {
               Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => ScanPage()));
+                        MaterialPageRoute(builder: (context) => CreditScreen()));
             },
           ),
         ],

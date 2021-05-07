@@ -1,18 +1,17 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:locker/components/default_button.dart';
 import 'package:locker/components/form_error.dart';
 import 'package:locker/constants.dart';
 import 'package:locker/screens/OTP/otp_screen.dart';
-import 'package:locker/screens/sign_up/account.dart';
+
 import 'package:locker/screens/sign_up/components/body.dart';
-import 'package:locker/screens/sign_up/account_service.dart';
+
 import 'package:get_it/get_it.dart';
 import 'package:locker/screens/sign_up/registerModel.dart';
 import 'package:http/http.dart' as http;
 
 class SignUpForm extends StatefulWidget {
-  // final String accountID;
-  // SignUpForm({this.accountID});
   @override
   _SignUpFormState createState() => _SignUpFormState();
 }
@@ -21,14 +20,17 @@ Future<DataModel> register(String userName, String password, String phoneNumber,
     String email, String confirmPassword) async {
   var response = await http.post(
       Uri.https('smart-locker-api.azurewebsites.net', 'api/Account/register'),
-      body: {
+      headers: {
+        "accept": "application/json",
+        "content-type": "application/json"
+      },
+      body: jsonEncode({
         'userName': userName,
         'password': password,
         'phoneNumber': phoneNumber,
         'email': email,
         'confirmPassword': confirmPassword
-      },
-      );
+      }));
   var data = response.body;
   print(data);
   // print('f');
@@ -52,15 +54,8 @@ class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPhone = TextEditingController();
   final TextEditingController _controllerConfirm = TextEditingController();
-  AccountService get accountService => GetIt.I<AccountService>();
-  String errorMessage;
-  bool _isLoading = false;
+
   DataModel _dataModel;
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  // }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -95,93 +90,30 @@ class _SignUpFormState extends State<SignUpForm> {
               buildConfirmPasswordFormField(),
               FormError(errors: errors),
               SizedBox(height: 20),
-
               DefaultButton(
                   text: "Register",
                   press: () async {
-                    userName = _controllerUsername.text;
-                    password = _controllerPassword.text;
-                    phoneNumber = _controllerPhone.text;
-                    email = _controllerEmail.text;
-                    confirmPassword = _controllerConfirm.text;
+                    if (_formKey.currentState.validate()) {
+                      userName = _controllerUsername.text;
+                      password = _controllerPassword.text;
+                      phoneNumber = _controllerPhone.text;
+                      email = _controllerEmail.text;
+                      confirmPassword = _controllerConfirm.text;
 
-                    // print(userName);
-                    // print(password);
-                    // print(phoneNumber);
-                    // print(email);
-                    // print(confirmPassword);
+                      // print(userName);
+                      // print(password);
+                      // print(phoneNumber);
+                      // print(email);
+                      // print(confirmPassword);
 
-                    DataModel data = await register(userName, password,
-                        phoneNumber, email, confirmPassword);
-                    setState(() {
-                      _dataModel = data;
-                    });
-
-                    // if (_formKey.currentState.validate()) {
-                    //go to profile page
-                    // Navigator.pushNamed(context, OtpScreen.routeName);
-                    // setState(() {
-                    //   _futureAccount = createAccount(
-                    //       _controllerUsername.text,
-                    //       _controllerPassword.text,
-                    //       _controllerEmail.text,
-                    //       _controllerPhone.text);
-                    // });
-                    //
-
-                    //ok
-                    // setState(() {
-                    //   _isLoading = true;
-                    // });
-                    // final newAccount = Account(
-                    //     userName: _controllerUsername.text,
-                    //     password: _controllerPassword.text,
-                    //     phoneNumber: _controllerPhone.text,
-                    //     email: _controllerEmail.text,
-                    //     confirmPassword: _controllerConfirm.text);
-                    // final result =
-                    //     await accountService.createAccount(newAccount);
-                    // setState(() {
-                    //   _isLoading = false;
-                    // });
-                    // final title = "Done";
-                    // final text = result.error
-                    //     ? (result.errorMessage ?? 'error occur')
-                    //     : 'account created';
-                    // //   print(result.error);
-                    // showDialog(
-                    //     context: context,
-                    //     builder: (_) => AlertDialog(
-                    //           title: Text(title),
-                    //           content: Text(text),
-                    //           actions: [
-                    //             FlatButton(
-                    //                 onPressed: () {
-                    //                   Navigator.of(context).pop();
-                    //                 },
-                    //                 child: Text("ok"))
-                    //           ],
-                    //         )).then((data) {
-                    //   if (result.data) {
-                    //     Navigator.of(context).pop();
-                    //   }
-                    // });
-                  }
-                  //},
-                  ),
-              // FutureBuilder<Account>(
-              //   future: _futureAccount,
-              //   builder: (context, snapshot) {
-              //     if (snapshot.hasData) {
-              //       return Text(snapshot.data.username);
-              //     } else if (snapshot.hasError) {
-              //       return Text("${snapshot.error}");
-              //     }
-
-              //     return CircularProgressIndicator();
-              //   },
-              // )
-              //
+                      DataModel data = await register(userName, password,
+                          phoneNumber, email, confirmPassword);
+                      setState(() {
+                        _dataModel = data;
+                      });
+                      Navigator.pushNamed(context, OtpScreen.routeName);
+                    }
+                  }),
             ],
           ),
         ));

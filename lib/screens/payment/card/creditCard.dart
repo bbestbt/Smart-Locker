@@ -1,0 +1,257 @@
+import 'package:flutter/material.dart';
+import 'package:locker/components/default_button.dart';
+import 'package:locker/components/form_error.dart';
+import 'package:locker/screens/booked/components/body.dart';
+import 'package:locker/screens/booked_detail/dialog.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+
+class CreditCard extends StatefulWidget {
+  @override
+  _CreditCardState createState() => _CreditCardState();
+}
+
+class _CreditCardState extends State<CreditCard> {
+  final _formKey = GlobalKey<FormState>();
+  String name;
+  String cardNumber;
+  String month;
+  String year;
+  String cvc;
+  String value;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController cardNumberController = TextEditingController();
+  TextEditingController monthController = TextEditingController();
+  TextEditingController yearController = TextEditingController();
+  TextEditingController cvcController = TextEditingController();
+  TextEditingController valueController = TextEditingController();
+  final List<String> errors = [];
+  void addError({String error}) {
+    if (!errors.contains(error))
+      setState(() {
+        errors.add(error);
+      });
+  }
+
+  void removeError({String error}) {
+    if (errors.contains(error))
+      setState(() {
+        errors.remove(error);
+      });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          children: [
+            buildNameFormField(),
+            SizedBox(height: 20),
+            buildCardNumberFormField(),
+            SizedBox(height: 20),
+            Row(children: [
+              Container(width: 170, child: buildMonthFormField()),
+              SizedBox(width: 10),
+              Container(width: 170, child: buildYearFormField())
+            ]),
+            SizedBox(height: 20),
+            buildCVCFormField(),
+            SizedBox(height: 20),
+            FormError(errors: errors),
+            DefaultButton(
+              text: "Confirm",
+              press: () async {
+                 if (_formKey.currentState.validate()) {
+                
+             await Dialogs.yesDialog(context, "Payment", "Done");
+                Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => DetailScreen()));
+                 }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  TextFormField buildNameFormField() {
+    return TextFormField(
+      controller: nameController,
+      cursorColor: Color(0xFF6F35A5),
+      onSaved: (newValue) => name = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter your name");
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter your name");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        hintText: "Card Holder's Name",
+        filled: true,
+        fillColor: Color(0xFFF1E6FF),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildCardNumberFormField() {
+    return TextFormField(
+      inputFormatters: [
+        MaskTextInputFormatter(mask: "####-####-####-####"),
+      ],
+      keyboardType: TextInputType.number,
+      controller: cardNumberController,
+      cursorColor: Color(0xFF6F35A5),
+      onSaved: (newValue) => cardNumber = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter your card number");
+        }else if (value.length == 16) {
+          removeError(error: "Please Enter valid card number");
+        }
+        cardNumber = value;
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter your card number");
+          return "";
+        } else if (value.length < 16) {
+          addError(error: "Please Enter valid card number");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        hintText: "Card number",
+        filled: true,
+        fillColor: Color(0xFFF1E6FF),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildMonthFormField() {
+    return TextFormField(
+      inputFormatters: [
+        MaskTextInputFormatter(mask: "##"),
+      ],
+      controller: monthController,
+      keyboardType: TextInputType.number,
+      cursorColor: Color(0xFF6F35A5),
+      onSaved: (newValue) => month = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter month");
+        } else if (value.length == 2) {
+          removeError(error: "Please Enter valid month");
+        }
+        month = value;
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter month");
+          return "";
+        }
+         else if (value.length < 2) {
+          addError(error: "Please Enter valid month");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        hintText: "MM",
+        filled: true,
+        fillColor: Color(0xFFF1E6FF),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildYearFormField() {
+    return TextFormField(
+      inputFormatters: [
+        MaskTextInputFormatter(mask: "####"),
+      ],
+      controller: yearController,
+      keyboardType: TextInputType.number,
+      cursorColor: Color(0xFF6F35A5),
+      onSaved: (newValue) => year = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter year");
+        }
+        else if (value.length == 4) {
+          removeError(error: "Please Enter valid year");
+        }
+        year = value;
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter year");
+          return "";
+        }
+         else if (value.length < 4) {
+          addError(error: "Please Enter valid year");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        hintText: "YYYY",
+        filled: true,
+        fillColor: Color(0xFFF1E6FF),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+
+  TextFormField buildCVCFormField() {
+    return TextFormField(
+      inputFormatters: [
+        MaskTextInputFormatter(mask: "###"),
+      ],
+      controller: cvcController,
+      keyboardType: TextInputType.number,
+      cursorColor: Color(0xFF6F35A5),
+      onSaved: (newValue) => cvc = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: "Please Enter cvc");
+        }else if (value.length == 3) {
+          removeError(error: "Please Enter valid cvc");
+        }
+        cvc = value;
+        return null;
+      },
+      validator: (value) {
+        if (value.isEmpty) {
+          addError(error: "Please Enter cvc");
+          return "";
+        } else if (value.length < 3) {
+          addError(error: "Please Enter valid cvc");
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        hintText: "CVC",
+        filled: true,
+        fillColor: Color(0xFFF1E6FF),
+        floatingLabelBehavior: FloatingLabelBehavior.always,
+      ),
+    );
+  }
+}

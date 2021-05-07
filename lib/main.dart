@@ -3,22 +3,14 @@ import 'package:get_it/get_it.dart';
 import 'package:locker/constants.dart';
 import 'package:locker/routes.dart';
 import 'package:locker/screens/app/app_screen.dart';
-import 'package:locker/screens/sign_up/account_service.dart';
+import 'package:locker/screens/payment/card/credit.dart';
+import 'package:locker/screens/payment/card/creditCard.dart';
+import 'package:locker/screens/payment/scan/scan.dart';
+
 import 'package:locker/theme.dart';
 import 'package:http/http.dart' as http;
-// void setupLocator() {
-//   GetIt.I.registerLazySingleton(() => AccountService());
-// }
 
-//ok
-// GetIt getIt = GetIt.instance;
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await setupLocator();
-
-//ok
-  //  getIt.registerSingleton<AccountService>(AccountService(),
-  //     signalsReady: true);
 
   runApp(MyApp());
 }
@@ -31,7 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: theme(),
-      // home: SplashScreen(),
+    // home: CreditScreen(),
       initialRoute: AppScreen.routeName,
       routes: routes,
     );
