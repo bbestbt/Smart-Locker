@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:locker/screens/sign_in/api_service.dart';
 import 'package:locker/components/default_button.dart';
 import 'package:locker/components/form_error.dart';
 import 'package:locker/constants.dart';
 import 'package:locker/screens/booked/components/body.dart';
 import 'package:locker/screens/forgot_password/forgot_password_screen.dart';
 import 'package:locker/screens/homepage/home_screen.dart';
-
-
+import 'package:locker/screens/sign_in/login.dart';
 
 class SignForm extends StatefulWidget {
   @override
@@ -17,10 +17,19 @@ class _SignFormState extends State<SignForm> {
   final _formkey = GlobalKey<FormState>();
   String username;
   String password;
-  bool remember =false;
+  bool remember = false;
   final List<String> errors = [];
+  LoginRequest requestModel;
+  GlobalKey<FormState> globalFormKey = new GlobalKey<FormState>();
+  bool isApiCallProcess = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    requestModel = new LoginRequest();
+  }
 
-   void addError({String error}) {
+  void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
         errors.add(error);
@@ -37,7 +46,8 @@ class _SignFormState extends State<SignForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formkey,
+      //  key: _formkey,
+      key: globalFormKey,
       child: Column(
         children: [
           buildUsernameFormField(),
@@ -48,36 +58,54 @@ class _SignFormState extends State<SignForm> {
           SizedBox(
             height: 20,
           ),
-         
-          Row(children: [
-            Checkbox(value: remember, activeColor: Color(0xFF6F35A5),onChanged: (value){
-                setState(() {
-                  remember=value;
-                  
-                });
-            
-             
-            }),
-            Text("Remeber me"),
-            Spacer(),
-            GestureDetector(
-              onTap:() =>Navigator.pushNamed(context, ForgotPasswordScreen.routeName),
-              child: Text("Forgot pasword",style: TextStyle(decoration: TextDecoration.underline),)),
-
-          ],),
-           FormError(errors: errors),
+          Row(
+            children: [
+              Checkbox(
+                  value: remember,
+                  activeColor: Color(0xFF6F35A5),
+                  onChanged: (value) {
+                    setState(() {
+                      remember = value;
+                    });
+                  }),
+              Text("Remeber me"),
+              Spacer(),
+              GestureDetector(
+                  onTap: () => Navigator.pushNamed(
+                      context, ForgotPasswordScreen.routeName),
+                  child: Text(
+                    "Forgot pasword",
+                    style: TextStyle(decoration: TextDecoration.underline),
+                  )),
+            ],
+          ),
+          FormError(errors: errors),
           DefaultButton(
-            text: "Login",
-            press: () {
-              if (_formkey.currentState.validate()) {
-                _formkey.currentState.save();
+              text: "Login",
+              press: () {
+                // if (_formkey.currentState.validate()) {
+                //   _formkey.currentState.save();
+
                 //valid
-               // Navigator.pushNamed(context, HomeScreen.routeName);
-               Navigator.push(context,MaterialPageRoute(builder: (context)=>
-                     DetailScreen()));
-              }
-            },
-          )
+                // Navigator.pushNamed(context, HomeScreen.routeName);
+
+                if (validateAndSave()) {
+                  //  print(requestModel.toJson());
+                  setState(() {
+                    isApiCallProcess = true;
+                  });
+                  APIService apiService = new APIService();
+                  apiService.login(requestModel).then((value) => {
+                        setState(() {
+                          isApiCallProcess = false;
+                        })
+                      });
+                }
+
+                //   Navigator.push(context,
+                //       MaterialPageRoute(builder: (context) => DetailScreen()));
+                //
+              }),
         ],
       ),
     );
@@ -87,14 +115,16 @@ class _SignFormState extends State<SignForm> {
     return TextFormField(
       cursorColor: Color(0xFF6F35A5),
       obscureText: true,
-      onSaved: (newValue)=>password=newValue,
+      // onSaved: (newValue)=>password=newValue,
+      onSaved: (input) => requestModel.password = input,
       onChanged: (value) {
-         if (value.isNotEmpty) {
+        if (value.isNotEmpty) {
           removeError(error: "Please Enter your password");
         } else if (value.length >= 6) {
           removeError(error: "Password is too short");
-        }
-        else if (RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$').hasMatch(value)) {
+        } else if (RegExp(
+                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+            .hasMatch(value)) {
           removeError(error: "Please Enter Valid Password");
         }
         return null;
@@ -106,22 +136,22 @@ class _SignFormState extends State<SignForm> {
         } else if (value.length < 6) {
           addError(error: "Password is too short");
           return "";
-        }
-         else if (!(RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')).hasMatch(value)) {
+        } else if (!(RegExp(
+                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$'))
+            .hasMatch(value)) {
           addError(error: "Please Enter Valid Password");
-           return "";
+          return "";
         }
         return null;
       },
       decoration: InputDecoration(
-        
         filled: true,
         fillColor: Color(0xFFF1E6FF),
         // labelText: "password",
         // labelStyle: TextStyle(color: Color(0xFF6F35A5)),
         hintText: "Password",
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon:Icon(Icons.lock),
+        suffixIcon: Icon(Icons.lock),
       ),
     );
   }
@@ -130,7 +160,8 @@ class _SignFormState extends State<SignForm> {
     return TextFormField(
       cursorColor: Color(0xFF6F35A5),
       keyboardType: TextInputType.name,
-      onSaved: (newValue) => username = newValue,
+      //  onSaved: (newValue) => username = newValue,
+      onSaved: (input) => requestModel.userName = input,
       onChanged: (value) {
         if (value.isNotEmpty && errors.contains("Please Enter your username")) {
           setState(() {
@@ -142,21 +173,27 @@ class _SignFormState extends State<SignForm> {
       validator: (value) {
         if (value.isEmpty && !errors.contains("Please Enter your username")) {
           setState(() {
-            errors.add(
-                "Please Enter your username");
+            errors.add("Please Enter your username");
           });
-  
         }
         return null;
       },
       decoration: InputDecoration(
-        // labelText: "username",
-        hintText: "Username",
-        filled: true,
-        fillColor: Color(0xFFF1E6FF),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon:Icon(Icons.person)
-      ),
+          // labelText: "username",
+          hintText: "Username",
+          filled: true,
+          fillColor: Color(0xFFF1E6FF),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.person)),
     );
+  }
+
+  bool validateAndSave() {
+    final form = globalFormKey.currentState;
+    if (form.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
   }
 }

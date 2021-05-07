@@ -7,12 +7,36 @@ import 'package:locker/screens/sign_up/account.dart';
 import 'package:locker/screens/sign_up/components/body.dart';
 import 'package:locker/screens/sign_up/account_service.dart';
 import 'package:get_it/get_it.dart';
+import 'package:locker/screens/sign_up/registerModel.dart';
+import 'package:http/http.dart' as http;
 
 class SignUpForm extends StatefulWidget {
-  final String accountID;
-  SignUpForm({this.accountID});
+  // final String accountID;
+  // SignUpForm({this.accountID});
   @override
   _SignUpFormState createState() => _SignUpFormState();
+}
+
+Future<DataModel> register(String userName, String password, String phoneNumber,
+    String email, String confirmPassword) async {
+  var response = await http.post(
+      Uri.https('smart-locker-api.azurewebsites.net', 'api/Account/register'),
+      body: {
+        'userName': userName,
+        'password': password,
+        'phoneNumber': phoneNumber,
+        'email': email,
+        'confirmPassword': confirmPassword
+      },
+      );
+  var data = response.body;
+  print(data);
+  // print('f');
+  if (response.statusCode == 201) {
+    String responseString = response.body;
+    dataModelFromJson(responseString);
+  } else
+    return null;
 }
 
 class _SignUpFormState extends State<SignUpForm> {
@@ -31,12 +55,12 @@ class _SignUpFormState extends State<SignUpForm> {
   AccountService get accountService => GetIt.I<AccountService>();
   String errorMessage;
   bool _isLoading = false;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-  // Future<Account> _futureAccount;
+  DataModel _dataModel;
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  // }
 
   void addError({String error}) {
     if (!errors.contains(error))
@@ -71,9 +95,28 @@ class _SignUpFormState extends State<SignUpForm> {
               buildConfirmPasswordFormField(),
               FormError(errors: errors),
               SizedBox(height: 20),
+
               DefaultButton(
                   text: "Register",
                   press: () async {
+                    userName = _controllerUsername.text;
+                    password = _controllerPassword.text;
+                    phoneNumber = _controllerPhone.text;
+                    email = _controllerEmail.text;
+                    confirmPassword = _controllerConfirm.text;
+
+                    // print(userName);
+                    // print(password);
+                    // print(phoneNumber);
+                    // print(email);
+                    // print(confirmPassword);
+
+                    DataModel data = await register(userName, password,
+                        phoneNumber, email, confirmPassword);
+                    setState(() {
+                      _dataModel = data;
+                    });
+
                     // if (_formKey.currentState.validate()) {
                     //go to profile page
                     // Navigator.pushNamed(context, OtpScreen.routeName);
@@ -85,42 +128,44 @@ class _SignUpFormState extends State<SignUpForm> {
                     //       _controllerPhone.text);
                     // });
                     //
-                    setState(() {
-                      _isLoading = true;
-                    });
-                    final newAccount = Account(
-                        userName: _controllerUsername.text,
-                        password: _controllerPassword.text,
-                        phoneNumber: _controllerPhone.text,
-                        email: _controllerEmail.text,
-                        confirmPassword:_controllerConfirm.text);
-                    final result =
-                        await accountService.createAccount(newAccount);
-                    setState(() {
-                      _isLoading = false;
-                    });
-                    final title = "Done";
-                    final text = result.error
-                        ? (result.errorMessage ?? 'error occur')
-                        : 'account created';
-                  //   print(result.error);
-                    showDialog(
-                        context: context,
-                        builder: (_) => AlertDialog(
-                              title: Text(title),
-                              content: Text(text),
-                              actions: [
-                                FlatButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text("ok"))
-                              ],
-                            )).then((data) {
-                      if (result.data) {
-                        Navigator.of(context).pop();
-                      }
-                    });
+
+                    //ok
+                    // setState(() {
+                    //   _isLoading = true;
+                    // });
+                    // final newAccount = Account(
+                    //     userName: _controllerUsername.text,
+                    //     password: _controllerPassword.text,
+                    //     phoneNumber: _controllerPhone.text,
+                    //     email: _controllerEmail.text,
+                    //     confirmPassword: _controllerConfirm.text);
+                    // final result =
+                    //     await accountService.createAccount(newAccount);
+                    // setState(() {
+                    //   _isLoading = false;
+                    // });
+                    // final title = "Done";
+                    // final text = result.error
+                    //     ? (result.errorMessage ?? 'error occur')
+                    //     : 'account created';
+                    // //   print(result.error);
+                    // showDialog(
+                    //     context: context,
+                    //     builder: (_) => AlertDialog(
+                    //           title: Text(title),
+                    //           content: Text(text),
+                    //           actions: [
+                    //             FlatButton(
+                    //                 onPressed: () {
+                    //                   Navigator.of(context).pop();
+                    //                 },
+                    //                 child: Text("ok"))
+                    //           ],
+                    //         )).then((data) {
+                    //   if (result.data) {
+                    //     Navigator.of(context).pop();
+                    //   }
+                    // });
                   }
                   //},
                   ),
@@ -286,7 +331,7 @@ class _SignUpFormState extends State<SignUpForm> {
   TextFormField buildPhoneNumberFormField() {
     return TextFormField(
       controller: _controllerPhone,
-      keyboardType: TextInputType.phone,
+      // keyboardType: TextInputType.phone,
       onSaved: (newValue) => phoneNumber = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {

@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:locker/apiResponse.dart';
+import 'package:locker/screens/sign_up/apiResponse.dart';
 import 'dart:convert';
 
 import 'package:locker/screens/sign_up/account.dart';

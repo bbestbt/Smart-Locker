@@ -5,16 +5,21 @@ import 'package:locker/routes.dart';
 import 'package:locker/screens/app/app_screen.dart';
 import 'package:locker/screens/sign_up/account_service.dart';
 import 'package:locker/theme.dart';
-
+import 'package:http/http.dart' as http;
 // void setupLocator() {
 //   GetIt.I.registerLazySingleton(() => AccountService());
 // }
-GetIt getIt = GetIt.instance;
+
+//ok
+// GetIt getIt = GetIt.instance;
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
   // await setupLocator();
-   getIt.registerSingleton<AccountService>(AccountService(),
-      signalsReady: true);
+
+//ok
+  //  getIt.registerSingleton<AccountService>(AccountService(),
+  //     signalsReady: true);
+
   runApp(MyApp());
 }
 
@@ -32,4 +37,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
