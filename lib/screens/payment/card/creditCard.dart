@@ -9,7 +9,7 @@ class CreditCard extends StatefulWidget {
   @override
   _CreditCardState createState() => _CreditCardState();
 }
-
+ //int var =int.parse(_section_id.text);
 class _CreditCardState extends State<CreditCard> {
   final _formKey = GlobalKey<FormState>();
   String name;
@@ -63,12 +63,11 @@ class _CreditCardState extends State<CreditCard> {
             DefaultButton(
               text: "Confirm",
               press: () async {
-                 if (_formKey.currentState.validate()) {
-                
-             await Dialogs.yesDialog(context, "Payment", "Done");
-                Navigator.push(context,
+                if (_formKey.currentState.validate()) {
+                  await Dialogs.yesDialog(context, "Payment", "Done");
+                  Navigator.push(context,
                       MaterialPageRoute(builder: (context) => DetailScreen()));
-                 }
+                }
               },
             ),
           ],
@@ -116,10 +115,10 @@ class _CreditCardState extends State<CreditCard> {
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: "Please Enter your card number");
-        }else if (value.length == 16) {
+        } else if (value.length == 16) {
           removeError(error: "Please Enter valid card number");
         }
-        cardNumber = value;
+        // cardNumber = value;
         return null;
       },
       validator: (value) {
@@ -153,18 +152,17 @@ class _CreditCardState extends State<CreditCard> {
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: "Please Enter month");
-        } else if (value.length == 2) {
+        } else if (value.length == 2 || int.parse(value) <= 12) {
           removeError(error: "Please Enter valid month");
         }
-        month = value;
+        // month = value;
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
           addError(error: "Please Enter month");
           return "";
-        }
-         else if (value.length < 2) {
+        } else if (value.length < 2 || int.parse(value) > 12) {
           addError(error: "Please Enter valid month");
           return "";
         }
@@ -191,19 +189,17 @@ class _CreditCardState extends State<CreditCard> {
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: "Please Enter year");
-        }
-        else if (value.length == 4) {
+        } else if (value.length == 4 || int.parse(value) <= 2021) {
           removeError(error: "Please Enter valid year");
         }
-        year = value;
+        // year = value;
         return null;
       },
       validator: (value) {
         if (value.isEmpty) {
           addError(error: "Please Enter year");
           return "";
-        }
-         else if (value.length < 4) {
+        } else if (value.length < 4 || int.parse(value) < 2021) {
           addError(error: "Please Enter valid year");
           return "";
         }
@@ -230,10 +226,10 @@ class _CreditCardState extends State<CreditCard> {
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: "Please Enter cvc");
-        }else if (value.length == 3) {
+        } else if (value.length == 3) {
           removeError(error: "Please Enter valid cvc");
         }
-        cvc = value;
+        // cvc = value;
         return null;
       },
       validator: (value) {
