@@ -3,27 +3,62 @@ import 'package:locker/components/default_button.dart';
 import 'package:locker/components/form_error.dart';
 import 'package:locker/screens/booked/components/body.dart';
 import 'package:locker/screens/booked_detail/dialog.dart';
+import 'package:locker/screens/payment/card/cardModel.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class CreditCard extends StatefulWidget {
   @override
   _CreditCardState createState() => _CreditCardState();
 }
- //int var =int.parse(_section_id.text);
+
+Future<CardModel> addCard(
+  String cardNumber,
+  String name,
+  int month,
+  int year,
+  String cvc,
+) async {
+  var response = await http.post(
+      Uri.https('smart-locker-api.azurewebsites.net', '/api/Charge/pay'),
+      headers: {
+        "accept": "application/json",
+        "content-type": "application/json"
+      },
+      body: jsonEncode({
+        'name': name,
+        'cardNumber': cardNumber,
+        'month': month,
+        'year': year,
+        'cvc': cvc,
+      }));
+  var data = response.body;
+  print(data);
+  if (response.statusCode == 201) {
+    String responseString = response.body;
+    cardModelFromJson(responseString);
+  } else
+    return null;
+}
+
+//int var =int.parse(_section_id.text);
 class _CreditCardState extends State<CreditCard> {
   final _formKey = GlobalKey<FormState>();
   String name;
   String cardNumber;
-  String month;
-  String year;
+  int month;
+  int year;
   String cvc;
-  String value;
+
+  CardModel _cardModel;
+  // String value;
   TextEditingController nameController = TextEditingController();
   TextEditingController cardNumberController = TextEditingController();
   TextEditingController monthController = TextEditingController();
   TextEditingController yearController = TextEditingController();
   TextEditingController cvcController = TextEditingController();
-  TextEditingController valueController = TextEditingController();
+  // TextEditingController valueController = TextEditingController();
   final List<String> errors = [];
   void addError({String error}) {
     if (!errors.contains(error))
@@ -64,6 +99,23 @@ class _CreditCardState extends State<CreditCard> {
               text: "Confirm",
               press: () async {
                 if (_formKey.currentState.validate()) {
+                  name = nameController.text;
+                  cardNumber = cardNumberController.text;
+                  month = int.parse(monthController.text);
+                  year = int.parse(yearController.text);
+                  cvc = cvcController.text;
+                  print(name);
+                  print(cardNumber);
+                  print(month);
+                  print(year);
+                  print(cvc);
+
+                  CardModel data =
+                      await addCard(name, cardNumber, month, year, cvc);
+                  setState(() {
+                    _cardModel = data;
+                  });
+
                   await Dialogs.yesDialog(context, "Payment", "Done");
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => DetailScreen()));
@@ -105,9 +157,9 @@ class _CreditCardState extends State<CreditCard> {
 
   TextFormField buildCardNumberFormField() {
     return TextFormField(
-      inputFormatters: [
-        MaskTextInputFormatter(mask: "####-####-####-####"),
-      ],
+      // inputFormatters: [
+      //   MaskTextInputFormatter(mask: "####-####-####-####"),
+      // ],
       keyboardType: TextInputType.number,
       controller: cardNumberController,
       cursorColor: Color(0xFF6F35A5),
@@ -142,13 +194,13 @@ class _CreditCardState extends State<CreditCard> {
 
   TextFormField buildMonthFormField() {
     return TextFormField(
-      inputFormatters: [
-        MaskTextInputFormatter(mask: "##"),
-      ],
+      // inputFormatters: [
+      //   MaskTextInputFormatter(mask: "##"),
+      // ],
       controller: monthController,
       keyboardType: TextInputType.number,
       cursorColor: Color(0xFF6F35A5),
-      onSaved: (newValue) => month = newValue,
+      //   onSaved: (newValue) => month = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: "Please Enter month");
@@ -179,13 +231,13 @@ class _CreditCardState extends State<CreditCard> {
 
   TextFormField buildYearFormField() {
     return TextFormField(
-      inputFormatters: [
-        MaskTextInputFormatter(mask: "####"),
-      ],
+      // inputFormatters: [
+      //   MaskTextInputFormatter(mask: "####"),
+      // ],
       controller: yearController,
       keyboardType: TextInputType.number,
       cursorColor: Color(0xFF6F35A5),
-      onSaved: (newValue) => year = newValue,
+      // onSaved: (newValue) => year = newValue,
       onChanged: (value) {
         if (value.isNotEmpty) {
           removeError(error: "Please Enter year");
@@ -216,9 +268,9 @@ class _CreditCardState extends State<CreditCard> {
 
   TextFormField buildCVCFormField() {
     return TextFormField(
-      inputFormatters: [
-        MaskTextInputFormatter(mask: "###"),
-      ],
+      // inputFormatters: [
+      //   MaskTextInputFormatter(mask: "###"),
+      // ],
       controller: cvcController,
       keyboardType: TextInputType.number,
       cursorColor: Color(0xFF6F35A5),
