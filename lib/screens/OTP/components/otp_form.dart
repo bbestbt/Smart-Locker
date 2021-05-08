@@ -4,6 +4,7 @@ import 'package:locker/constants.dart';
 import 'package:locker/screens/OTP/otpModel.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OtpForm extends StatefulWidget {
   @override
@@ -30,6 +31,16 @@ Future<OTPModel> addCode(String code) async {
 }
 
 class _OtpFormState extends State<OtpForm> {
+
+ String email = '';
+  Future getEmail() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      email = preferences.getString('email');
+    });
+  }
+
+
   FocusNode pin2;
   FocusNode pin3;
   FocusNode pin4;
@@ -49,6 +60,7 @@ class _OtpFormState extends State<OtpForm> {
   @override
   void initState() {
     super.initState();
+    getEmail();
     pin2 = FocusNode();
     pin3 = FocusNode();
     pin4 = FocusNode();
@@ -157,6 +169,7 @@ class _OtpFormState extends State<OtpForm> {
                   _otpModel = data;
                 });
               }),
+               //Center(child: email==''? Text(''):Text(email)),
         ],
       ),
     );

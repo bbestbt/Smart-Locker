@@ -7,6 +7,7 @@ import 'package:locker/screens/payment/card/cardModel.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreditCard extends StatefulWidget {
   @override
@@ -32,7 +33,7 @@ Future<CardModel> addCard(
         'month': month,
         'year': year,
         'cvc': cvc,
-        'value':32000
+        'value': 32000
       }));
   var data = response.body;
   print(data);
@@ -45,6 +46,19 @@ Future<CardModel> addCard(
 
 //int var =int.parse(_section_id.text);
 class _CreditCardState extends State<CreditCard> {
+  String userName = '';
+  Future getUserName() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userName = preferences.getString('userName');
+    });
+  }
+
+  void initState() {
+    super.initState();
+    getUserName();
+  }
+
   final _formKey = GlobalKey<FormState>();
   String name;
   String cardNumber;
@@ -123,6 +137,7 @@ class _CreditCardState extends State<CreditCard> {
                 }
               },
             ),
+          //  Center(child: userName == '' ? Text('') : Text(userName)),
           ],
         ),
       ),

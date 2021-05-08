@@ -4,6 +4,7 @@ import 'package:locker/screens/booked_detail/dialog.dart';
 import 'package:locker/screens/payment/card/credit.dart';
 import 'package:locker/screens/payment/payment.dart';
 import 'package:locker/screens/payment/scan/scan.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class BookedForm extends StatefulWidget {
   @override
@@ -11,9 +12,22 @@ class BookedForm extends StatefulWidget {
 }
 
 class _BookedFormState extends State<BookedForm> {
+  String userName = '';
+  Future getUserName() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      userName = preferences.getString('userName');
+    });
+  }
+
+  void initState() {
+    super.initState();
+    getUserName();
+  }
+
   DateTime _date = new DateTime.now();
   TimeOfDay _fromTime = new TimeOfDay.now();
- // TimeOfDay _toTime = new TimeOfDay.now();
+  // TimeOfDay _toTime = new TimeOfDay.now();
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
@@ -61,7 +75,13 @@ class _BookedFormState extends State<BookedForm> {
         children: [
           Row(
             children: [
-              Text("Date : ", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color:Colors.black),),
+              Text(
+                "Date : ",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.black),
+              ),
               Spacer(flex: 2),
               RaisedButton(
                 child: Text('Select Date'),
@@ -71,12 +91,22 @@ class _BookedFormState extends State<BookedForm> {
               ),
             ],
           ),
-           SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           Text('Date selected: ${_date.toString()}'),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Row(
             children: [
-              Text('From : ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color:Colors.black),),
+              Text(
+                'From : ',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.black),
+              ),
               Spacer(flex: 2),
               RaisedButton(
                 child: Text('Select Time'),
@@ -86,9 +116,13 @@ class _BookedFormState extends State<BookedForm> {
               ),
             ],
           ),
-           SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           Text('From Time selected: ${_fromTime.toString()}'),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           // Row(
           //   children: [
           //     Text('To : ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color:Colors.black),),
@@ -103,21 +137,24 @@ class _BookedFormState extends State<BookedForm> {
           // ),
           //  SizedBox(height: 10,),
           // Text('To Time selected: ${_toTime.toString()}'),
-         // SizedBox(height: 20,),
+          // SizedBox(height: 20,),
           DefaultButton(
             text: "Confirm",
             press: () {
-            Dialogs.yesDialog(context, "Booked Locker", "Done");
+              Dialogs.yesDialog(context, "Booked Locker", "Done");
             },
           ),
-          SizedBox(height: 20,),
-           DefaultButton(
+          SizedBox(
+            height: 20,
+          ),
+          DefaultButton(
             text: "Stop",
             press: () {
               Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => CreditScreen()));
+                  MaterialPageRoute(builder: (context) => CreditScreen()));
             },
           ),
+     //      Center(child: userName==''? Text(''):Text(userName)),
         ],
       ),
     );

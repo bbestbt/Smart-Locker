@@ -10,6 +10,7 @@ import 'package:locker/screens/sign_up/components/body.dart';
 import 'package:get_it/get_it.dart';
 import 'package:locker/screens/sign_up/registerModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpForm extends StatefulWidget {
   @override
@@ -110,6 +111,11 @@ class _SignUpFormState extends State<SignUpForm> {
                       setState(() {
                         _dataModel = data;
                       });
+
+                      SharedPreferences preferences =
+                          await SharedPreferences.getInstance();
+                      preferences.setString('email', _controllerEmail.text);
+
                       Navigator.pushNamed(context, OtpScreen.routeName);
                     }
                   }),

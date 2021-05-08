@@ -5,6 +5,7 @@ import 'package:locker/screens/booked/dialog.dart';
 import 'package:locker/screens/booked_detail/bookdetail_screen.dart';
 import 'package:locker/screens/homepage/home_screen.dart';
 import 'package:locker/screens/sign_in/sign_in_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Body extends StatelessWidget {
   @override
@@ -20,10 +21,28 @@ var lockerList = [
   {'title': 'Locker4', 'price': 20},
 ];
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   // final location;
 
   // DetailScreen(this.location);
+  @override
+  _DetailScreenState createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  String userName='';
+  Future getUserName() async{
+    SharedPreferences preferences=await SharedPreferences.getInstance();
+    setState(() {
+      userName=preferences.getString('userName');
+    });
+  }
+
+void initState(){
+  super.initState();
+  getUserName();
+}
+    
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,6 +112,7 @@ class DetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
+          //    Center(child: userName==''? Text(''):Text(userName)),
             ],
           ),
         ),
