@@ -14,14 +14,14 @@ class CreditCard extends StatefulWidget {
 }
 
 Future<CardModel> addCard(
-  String cardNumber,
   String name,
+  String cardNumber,
   int month,
   int year,
   String cvc,
 ) async {
   var response = await http.post(
-      Uri.https('smart-locker-api.azurewebsites.net', '/api/Charge/pay'),
+      Uri.https('smart-locker-api.azurewebsites.net', 'api/Charge/pay'),
       headers: {
         "accept": "application/json",
         "content-type": "application/json"
@@ -32,6 +32,7 @@ Future<CardModel> addCard(
         'month': month,
         'year': year,
         'cvc': cvc,
+        'value':32000
       }));
   var data = response.body;
   print(data);
