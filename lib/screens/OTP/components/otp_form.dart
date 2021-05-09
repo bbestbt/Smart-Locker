@@ -15,6 +15,24 @@ class OtpForm extends StatefulWidget {
 class _OtpFormState extends State<OtpForm> {
   String email = '';
 
+  Future resendCode(String code) async {
+    getEmail();
+    var response = await http.get(
+        Uri.https('smart-locker-api.azurewebsites.net', 'api/Account/resend-code'),
+        headers: {
+          "accept": "application/json",
+          "content-type": "application/json",
+          "email": email,
+        },
+       );
+    // print(email);
+    if (response.statusCode == 200) {
+      print('send new code');
+    } else
+      return null;
+  }
+
+
   Future<OTPModel> addCode(String code) async {
     getEmail();
     var response = await http.put(
@@ -22,7 +40,6 @@ class _OtpFormState extends State<OtpForm> {
         headers: {
           "accept": "application/json",
           "content-type": "application/json",
-          
         },
         body: jsonEncode({
           "email": email,
