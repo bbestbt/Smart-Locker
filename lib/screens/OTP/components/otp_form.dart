@@ -22,9 +22,10 @@ class _OtpFormState extends State<OtpForm> {
         headers: {
           "accept": "application/json",
           "content-type": "application/json",
-          "email": email,
+          
         },
         body: jsonEncode({
+          "email": email,
           'code': code,
         }));
     // print(email);
@@ -172,7 +173,7 @@ class _OtpFormState extends State<OtpForm> {
                   _otpModel = data;
                 });
               }),
-          Center(child: email == '' ? Text('') : Text(email)),
+         // Center(child: email == '' ? Text('') : Text(email)),
         ],
       ),
     );
