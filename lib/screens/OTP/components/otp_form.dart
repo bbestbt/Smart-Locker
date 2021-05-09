@@ -1,3 +1,4 @@
+import 'package:email_auth/email_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:locker/components/default_button.dart';
 import 'package:locker/constants.dart';
@@ -11,35 +12,37 @@ class OtpForm extends StatefulWidget {
   _OtpFormState createState() => _OtpFormState();
 }
 
-Future<OTPModel> addCode(String code) async {
-  var response = await http.put(
-      Uri.https('smart-locker-api.azurewebsites.net', 'api/Account/verify'),
-      headers: {
-        "accept": "application/json",
-        "content-type": "application/json"
-      },
-      body: jsonEncode({
-        'code': code,
-      }));
-  var data = response.body;
-  print(data);
-  if (response.statusCode == 201) {
-    String responseString = response.body;
-    otpModelFromJson(responseString);
-  } else
-    return null;
-}
-
 class _OtpFormState extends State<OtpForm> {
+  String email = '';
 
- String email = '';
+  Future<OTPModel> addCode(String code) async {
+    getEmail();
+    var response = await http.put(
+        Uri.https('smart-locker-api.azurewebsites.net', 'api/Account/verify'),
+        headers: {
+          "accept": "application/json",
+          "content-type": "application/json",
+          "email": email,
+        },
+        body: jsonEncode({
+          'code': code,
+        }));
+    // print(email);
+    var data = response.body;
+    print(data);
+    if (response.statusCode == 201) {
+      String responseString = response.body;
+      otpModelFromJson(responseString);
+    } else
+      return null;
+  }
+
   Future getEmail() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       email = preferences.getString('email');
     });
   }
-
 
   FocusNode pin2;
   FocusNode pin3;
@@ -169,7 +172,7 @@ class _OtpFormState extends State<OtpForm> {
                   _otpModel = data;
                 });
               }),
-               //Center(child: email==''? Text(''):Text(email)),
+          Center(child: email == '' ? Text('') : Text(email)),
         ],
       ),
     );
