@@ -30,19 +30,23 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  String userName='';
-  Future getUserName() async{
-    SharedPreferences preferences=await SharedPreferences.getInstance();
+  String userName = '';
+  //String email = '';
+
+  Future getUserName() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
     setState(() {
-      userName=preferences.getString('userName');
+      userName = preferences.getString('userName');
+     //   email = preferences.getString('email');
     });
   }
 
-void initState(){
-  super.initState();
-  getUserName();
-}
-    
+  void initState() {
+    super.initState();
+    getUserName();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,7 +116,9 @@ void initState(){
                   ),
                 ),
               ),
-          //    Center(child: userName==''? Text(''):Text(userName)),
+              //   Center(child: userName==''? Text(''):Text(userName)),
+                 //   Center(child: email==''? Text(''):Text(email)),
+                 
             ],
           ),
         ),
@@ -155,11 +161,14 @@ class Locker extends StatelessWidget {
             ),
           ),
           MaterialButton(
-            onPressed: () {
-               Navigator.push(context,MaterialPageRoute(builder: (context)=>
-                    BookDetailScreen()));
+            onPressed: () async {
+              SharedPreferences preferences =
+                          await SharedPreferences.getInstance();
+                      preferences.setString('lockerId',locker['title'][6] );
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => BookDetailScreen()));
               //display error (booked)
-             // showAlertDialog(context);
+              // showAlertDialog(context);
             },
             color: Colors.purple,
             shape:
