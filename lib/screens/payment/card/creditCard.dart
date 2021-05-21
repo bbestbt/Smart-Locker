@@ -32,6 +32,7 @@ Future<CardModel> addCard(
         'month': month,
         'year': year,
         'cvc': cvc,
+        'value': 32000
       }));
   var data = response.body;
   print(data);
@@ -111,7 +112,7 @@ class _CreditCardState extends State<CreditCard> {
                   print(cvc);
 
                   CardModel data =
-                      await addCard(name, cardNumber, month, year, cvc);
+                      await addCard(cardNumber, name, month, year, cvc);
                   setState(() {
                     _cardModel = data;
                   });
