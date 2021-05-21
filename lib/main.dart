@@ -9,9 +9,12 @@ import 'package:locker/screens/payment/scan/scan.dart';
 
 import 'package:locker/theme.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
-
+WidgetsFlutterBinding.ensureInitialized();
+SharedPreferences preferences=await SharedPreferences.getInstance();
+var userName = preferences.getString('userName');
   runApp(MyApp());
 }
 

@@ -46,14 +46,6 @@ class _SignFormState extends State<SignForm> {
   final TextEditingController _controllerPassword = TextEditingController();
   LoginModel _loginModel;
 
-  // @override
-  // void dispose() {
-  //   // TODO: implement dispose
-  //   _controllerUsername.dispose();
-  //   _controllerPassword.dispose();
-  //   super.dispose();
-  // }
-
   void addError({String error}) {
     if (!errors.contains(error))
       setState(() {
@@ -121,8 +113,8 @@ class _SignFormState extends State<SignForm> {
                     _loginModel = data;
                   });
 
-                  // var rsp=await loginUser(userName,password);
-                  // print(rsp);
+                  SharedPreferences preferences=await SharedPreferences.getInstance();
+                  preferences.setString('userName', _controllerUsername.text);
 
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => DetailScreen()));

@@ -4,6 +4,10 @@ import 'package:locker/screens/booked_detail/dialog.dart';
 import 'package:locker/screens/payment/card/credit.dart';
 import 'package:locker/screens/payment/payment.dart';
 import 'package:locker/screens/payment/scan/scan.dart';
+import 'package:locker/screens/booked_detail/lockerModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class BookedForm extends StatefulWidget {
   @override
@@ -11,32 +15,90 @@ class BookedForm extends StatefulWidget {
 }
 
 class _BookedFormState extends State<BookedForm> {
-  DateTime _date = new DateTime.now();
-  TimeOfDay _fromTime = new TimeOfDay.now();
- // TimeOfDay _toTime = new TimeOfDay.now();
+  String userName = '';
+  int lockerId;
+  String email = '';
+  lockerModel _lockerModel;
+  Future getUserName() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    setState(() {
+      userName = preferences.getString('userName');
+    });
+  }
+
+  Future getLockerId() async {
+    SharedPreferences lockerPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      lockerId = int.parse(lockerPreferences.getString('lockerId'));
+    });
+  }
+
+  Future getEmail() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      email = preferences.getString('email');
+    });
+  }
+
+  Future<lockerModel> bookLocker(int lockerId, String date, String time) async {
+    getLockerId();
+    getEmail();
+    var response = await http.put(
+        Uri.https('smart-locker-api.azurewebsites.net', 'api/Locker/book'),
+        headers: {
+          "accept": "application/json",
+          "content-type": "application/json",
+          "email": email,
+        },
+        body: jsonEncode({
+          "lockerId": lockerId,
+          "date": date,
+          'time': time,
+        }));
+    // print(email);
+    var data = response.body;
+    print(data);
+    if (response.statusCode == 201) {
+      String responseString = response.body;
+      lockerModelFromJson(responseString);
+    } else
+      return null;
+  }
+
+  void initState() {
+    super.initState();
+    getUserName();
+    getEmail();
+    getLockerId();
+  }
+
+  DateTime date = new DateTime.now();
+  TimeOfDay time = new TimeOfDay.now();
+  // TimeOfDay _toTime = new TimeOfDay.now();
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
-        initialDate: _date,
+        initialDate: date,
         firstDate: new DateTime(2021),
         lastDate: new DateTime(2022));
-    if (picked != null && picked != _date) {
-      print('Date selected: ${_date.toString()}');
+    if (picked != null && picked != date) {
+      print('Date selected: ${date.toString()}');
       setState(() {
-        _date = picked;
+        date = picked;
       });
     }
   }
 
   Future<Null> _selectFromTime(BuildContext context) async {
     final TimeOfDay picked =
-        await showTimePicker(context: context, initialTime: _fromTime);
+        await showTimePicker(context: context, initialTime: time);
 
-    if (picked != null && picked != _fromTime) {
-      print('Time selected: ${_fromTime.toString()}');
+    if (picked != null && picked != time) {
+      print('Time selected: ${time.toString()}');
       setState(() {
-        _fromTime = picked;
+        time = picked;
       });
     }
   }
@@ -61,7 +123,13 @@ class _BookedFormState extends State<BookedForm> {
         children: [
           Row(
             children: [
-              Text("Date : ", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color:Colors.black),),
+              Text(
+                "Date : ",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.black),
+              ),
               Spacer(flex: 2),
               RaisedButton(
                 child: Text('Select Date'),
@@ -71,12 +139,22 @@ class _BookedFormState extends State<BookedForm> {
               ),
             ],
           ),
-           SizedBox(height: 10,),
-          Text('Date selected: ${_date.toString()}'),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 10,
+          ),
+          Text('Date selected: ${date.toString()}'),
+          SizedBox(
+            height: 20,
+          ),
           Row(
             children: [
-              Text('From : ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color:Colors.black),),
+              Text(
+                'From : ',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.black),
+              ),
               Spacer(flex: 2),
               RaisedButton(
                 child: Text('Select Time'),
@@ -86,9 +164,17 @@ class _BookedFormState extends State<BookedForm> {
               ),
             ],
           ),
-           SizedBox(height: 10,),
-          Text('From Time selected: ${_fromTime.toString()}'),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 10,
+          ),
+          Text('From Time selected: ${time.toString()}'),
+          SizedBox(
+            height: 20,
+          ),
+
+          Text(lockerId.toString()),
+          Text(email),
+
           // Row(
           //   children: [
           //     Text('To : ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color:Colors.black),),
@@ -103,21 +189,29 @@ class _BookedFormState extends State<BookedForm> {
           // ),
           //  SizedBox(height: 10,),
           // Text('To Time selected: ${_toTime.toString()}'),
-         // SizedBox(height: 20,),
+          // SizedBox(height: 20,),
           DefaultButton(
             text: "Confirm",
-            press: () {
-            Dialogs.yesDialog(context, "Booked Locker", "Done");
+            press: () async {
+              lockerModel data =
+                  await bookLocker(lockerId, date.toString(), time.toString());
+              setState(() {
+                _lockerModel = data;
+              });
+              Dialogs.yesDialog(context, "Booked Locker", "Done");
             },
           ),
-          SizedBox(height: 20,),
-           DefaultButton(
+          SizedBox(
+            height: 20,
+          ),
+          DefaultButton(
             text: "Stop",
             press: () {
               Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => CreditScreen()));
+                  MaterialPageRoute(builder: (context) => CreditScreen()));
             },
           ),
+          //      Center(child: userName==''? Text(''):Text(userName)),
         ],
       ),
     );

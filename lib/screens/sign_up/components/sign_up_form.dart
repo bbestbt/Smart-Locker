@@ -10,15 +10,17 @@ import 'package:locker/screens/sign_up/components/body.dart';
 import 'package:get_it/get_it.dart';
 import 'package:locker/screens/sign_up/registerModel.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUpForm extends StatefulWidget {
   @override
   _SignUpFormState createState() => _SignUpFormState();
 }
 
+var response;
 Future<DataModel> register(String userName, String password, String phoneNumber,
     String email, String confirmPassword) async {
-  var response = await http.post(
+  response = await http.post(
       Uri.https('smart-locker-api.azurewebsites.net', 'api/Account/register'),
       headers: {
         "accept": "application/json",
@@ -36,6 +38,8 @@ Future<DataModel> register(String userName, String password, String phoneNumber,
   if (response.statusCode == 201) {
     String responseString = response.body;
     dataModelFromJson(responseString);
+  } else if (response.statusCode == 400) {
+    print('dup mail');
   } else
     return null;
 }
@@ -110,6 +114,11 @@ class _SignUpFormState extends State<SignUpForm> {
                       setState(() {
                         _dataModel = data;
                       });
+
+                      SharedPreferences preferences =
+                          await SharedPreferences.getInstance();
+                      preferences.setString('email', _controllerEmail.text);
+
                       Navigator.pushNamed(context, OtpScreen.routeName);
                     }
                   }),
