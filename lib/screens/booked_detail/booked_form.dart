@@ -81,16 +81,16 @@ class _BookedFormState extends State<BookedForm> {
         },
         body: jsonEncode({
           "lockerId": lockerId,
-          "date": date.toString().substring(0,10),
-          'time': time.toString().substring(10,15),
+          "date": date,
+          'time': time,
         }));
     // print(email);
     print(response.statusCode);
     var data = response.body;
     print(data);
     if (response.statusCode == 204) {
-      String responseString = response.body;
-      lockerModelFromJson(responseString);
+      // String responseString = response.body;
+      // lockerModelFromJson(responseString);
     }else if(response.statusCode==500){
       print('500 ja');
     }
