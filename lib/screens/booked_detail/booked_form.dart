@@ -35,7 +35,12 @@ class _BookedFormState extends State<BookedForm> {
     );
     print(response.statusCode);
     if (response.statusCode == 200) {
+      var parsedData = jsonDecode(response.body);
      print('200');
+
+     print(parsedData);
+     var price = int.parse(parsedData.toString());
+     return price;
     // print(lockerId);
     } else if(response.statusCode == 400){
        print('400');
@@ -70,6 +75,7 @@ class _BookedFormState extends State<BookedForm> {
   }
 
   Future<lockerModel> bookLocker(int lockerId, String date, String time) async {
+    print("BOOK LOCKER " + date.toString());
     getLockerId();
     getEmail();
     var response = await http.put(
@@ -81,16 +87,16 @@ class _BookedFormState extends State<BookedForm> {
         },
         body: jsonEncode({
           "lockerId": lockerId,
-          "date": date.toString().substring(0,10),
-          'time': time.toString().substring(10,15),
+          "date": date,
+          'time': time,
         }));
     // print(email);
     print(response.statusCode);
-    var data = response.body;
-    print(data);
+    print(response.body);
     if (response.statusCode == 204) {
-      String responseString = response.body;
-      lockerModelFromJson(responseString);
+      // String responseString = response.body;
+      // lockerModelFromJson(responseString);
+      print("SUCCESSFUL");
     }else if(response.statusCode==500){
       print('500 ja');
     }
@@ -241,10 +247,10 @@ class _BookedFormState extends State<BookedForm> {
           ),
           DefaultButton(
             text: "Stop",
-            press: () {
-               stopBooked();
+            press: () async {
+               var price = await stopBooked();
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => CreditScreen()));
+                  MaterialPageRoute(builder: (context) => CreditScreen(price)));
             },
           ),
           //      Center(child: userName==''? Text(''):Text(userName)),

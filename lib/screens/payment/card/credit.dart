@@ -5,6 +5,11 @@ import 'package:locker/screens/payment/card/creditCard.dart';
 
 class CreditScreen extends StatelessWidget {
   static String routeName="/credit";
+  final int price;
+
+  const CreditScreen(this.price);
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,7 +22,7 @@ class CreditScreen extends StatelessWidget {
             Text("Fill your credit card", style: headingStyle),
             Text("Complete your details",textAlign: TextAlign.center,),
             SizedBox(height:50),
-            CreditCard(),
+            CreditCard(price),
           ],
         ),
       ),
