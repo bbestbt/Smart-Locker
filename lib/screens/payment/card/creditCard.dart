@@ -37,7 +37,7 @@ Future<CardModel> addCard(
       }));
   var data = response.body;
   print(data);
-  if (response.statusCode == 201) {
+  if (response.statusCode == 200) {
     String responseString = response.body;
     cardModelFromJson(responseString);
   } else

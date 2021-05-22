@@ -48,7 +48,7 @@ class _OtpFormState extends State<OtpForm> {
     // print(email);
     var data = response.body;
     print(data);
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       String responseString = response.body;
       otpModelFromJson(responseString);
     } else

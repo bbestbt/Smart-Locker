@@ -29,7 +29,14 @@ Future<LoginModel> login(String userName, String password) async {
       }));
   var data = response.body;
   print(data);
-  if (response.statusCode == 201) {
+  Map<String, dynamic> parsedData = jsonDecode(data);
+  print(parsedData);
+
+  if (response.statusCode == 202) {
+
+    SharedPreferences preferences=await SharedPreferences.getInstance();
+    preferences.setString('userName', parsedData['user']['userName']);
+    preferences.setString('email', parsedData['user']['email']);
     String responseString = response.body;
     loginModelFromJson(responseString);
   } else
@@ -112,9 +119,6 @@ class _SignFormState extends State<SignForm> {
                   setState(() {
                     _loginModel = data;
                   });
-
-                  SharedPreferences preferences=await SharedPreferences.getInstance();
-                  preferences.setString('userName', _controllerUsername.text);
 
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => DetailScreen()));

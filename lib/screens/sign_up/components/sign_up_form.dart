@@ -35,7 +35,7 @@ Future<DataModel> register(String userName, String password, String phoneNumber,
       }));
   var data = response.body;
   print(data);
-  if (response.statusCode == 201) {
+  if (response.statusCode == 202) {
     String responseString = response.body;
     dataModelFromJson(responseString);
   } else if (response.statusCode == 400) {
