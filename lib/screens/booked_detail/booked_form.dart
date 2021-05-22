@@ -19,6 +19,34 @@ class _BookedFormState extends State<BookedForm> {
   int lockerId;
   String email = '';
   lockerModel _lockerModel;
+
+  Future stopBooked() async {
+    getLockerId();
+    getEmail();
+    var response = await http.put(
+      Uri.https(
+          'smart-locker-api.azurewebsites.net', 'api/Locker/finish/${lockerId}'),
+      headers: {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "email": email,
+        "lockerId": lockerId.toString(),
+      },
+    );
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+     print('200');
+    // print(lockerId);
+    } else if(response.statusCode == 400){
+       print('400');
+    }
+    else if(response.statusCode == 500){
+       print('500');
+    }
+    else
+      return null;
+  }
+
   Future getUserName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
@@ -57,12 +85,16 @@ class _BookedFormState extends State<BookedForm> {
           'time': time,
         }));
     // print(email);
+    print(response.statusCode);
     var data = response.body;
     print(data);
-    if (response.statusCode == 201) {
+    if (response.statusCode == 204) {
       String responseString = response.body;
       lockerModelFromJson(responseString);
-    } else
+    }else if(response.statusCode==500){
+      print('500 ja');
+    }
+     else
       return null;
   }
 
@@ -173,7 +205,7 @@ class _BookedFormState extends State<BookedForm> {
           ),
 
           Text(lockerId.toString()),
-        //  Text(email),
+          //  Text(email),
 
           // Row(
           //   children: [
@@ -193,6 +225,9 @@ class _BookedFormState extends State<BookedForm> {
           DefaultButton(
             text: "Confirm",
             press: () async {
+              print(lockerId);
+              print(date.toString());
+               print(time.toString());
               lockerModel data =
                   await bookLocker(lockerId, date.toString(), time.toString());
               setState(() {
@@ -207,6 +242,7 @@ class _BookedFormState extends State<BookedForm> {
           DefaultButton(
             text: "Stop",
             press: () {
+               stopBooked();
               Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => CreditScreen()));
             },
