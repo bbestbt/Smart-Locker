@@ -8,7 +8,7 @@ import 'package:locker/screens/booked_detail/lockerModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:intl/intl.dart';
 class BookedForm extends StatefulWidget {
   @override
   _BookedFormState createState() => _BookedFormState();
@@ -81,8 +81,8 @@ class _BookedFormState extends State<BookedForm> {
         },
         body: jsonEncode({
           "lockerId": lockerId,
-          "date": date,
-          'time': time,
+          "date": date.toString().substring(0,10),
+          'time': time.toString().substring(10,15),
         }));
     // print(email);
     print(response.statusCode);
@@ -116,7 +116,7 @@ class _BookedFormState extends State<BookedForm> {
         firstDate: new DateTime(2021),
         lastDate: new DateTime(2022));
     if (picked != null && picked != date) {
-      print('Date selected: ${date.toString()}');
+      print('Date selected: ${date.toString().substring(0,10)}');
       setState(() {
         date = picked;
       });
@@ -128,7 +128,7 @@ class _BookedFormState extends State<BookedForm> {
         await showTimePicker(context: context, initialTime: time);
 
     if (picked != null && picked != time) {
-      print('Time selected: ${time.toString()}');
+      print('Time selected: ${time.toString().substring(10,15)}');
       setState(() {
         time = picked;
       });
@@ -174,7 +174,7 @@ class _BookedFormState extends State<BookedForm> {
           SizedBox(
             height: 10,
           ),
-          Text('Date selected: ${date.toString()}'),
+          Text('Date selected: ${date.toString().substring(0,10)}'),
           SizedBox(
             height: 20,
           ),
@@ -199,7 +199,7 @@ class _BookedFormState extends State<BookedForm> {
           SizedBox(
             height: 10,
           ),
-          Text('From Time selected: ${time.toString()}'),
+          Text('From Time selected: ${time.toString().substring(10,15)}'),
           SizedBox(
             height: 20,
           ),
@@ -226,10 +226,10 @@ class _BookedFormState extends State<BookedForm> {
             text: "Confirm",
             press: () async {
               print(lockerId);
-              print(date.toString());
-               print(time.toString());
+              print(date.toString().substring(0,10));
+               print(time.toString().substring(10,15));
               lockerModel data =
-                  await bookLocker(lockerId, date.toString(), time.toString());
+                  await bookLocker(lockerId, date.toString().substring(0,10), time.toString().substring(10,15));
               setState(() {
                 _lockerModel = data;
               });
