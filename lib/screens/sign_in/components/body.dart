@@ -43,23 +43,23 @@ class Body extends StatelessWidget {
                 SizedBox(
                   height: 60,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Social(
-                      icon: "assets/icons/google-icon.svg",
-                      press: () {},
-                    ),
-                    Social(
-                      icon: "assets/icons/facebook-2.svg",
-                      press: () {},
-                    ),
-                    Social(
-                      icon: "assets/icons/twitter.svg",
-                      press: () {},
-                    ),
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     Social(
+                //       icon: "assets/icons/google-icon.svg",
+                //       press: () {},
+                //     ),
+                //     Social(
+                //       icon: "assets/icons/facebook-2.svg",
+                //       press: () {},
+                //     ),
+                //     Social(
+                //       icon: "assets/icons/twitter.svg",
+                //       press: () {},
+                //     ),
+                //   ],
+                // ),
                 SizedBox(
                   height: 20,
                 ),

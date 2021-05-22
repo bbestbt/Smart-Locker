@@ -31,14 +31,14 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   String userName = '';
-  //String email = '';
+  String email = '';
 
   Future getUserName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
     setState(() {
       userName = preferences.getString('userName');
-     //   email = preferences.getString('email');
+      email = preferences.getString('email');
     });
   }
 
@@ -117,7 +117,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
               ),
               //   Center(child: userName==''? Text(''):Text(userName)),
-                 //   Center(child: email==''? Text(''):Text(email)),
+               //     Center(child: email==''? Text(''):Text(email)),
                  
             ],
           ),

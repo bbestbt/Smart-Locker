@@ -173,7 +173,7 @@ class _BookedFormState extends State<BookedForm> {
           ),
 
           Text(lockerId.toString()),
-          Text(email),
+        //  Text(email),
 
           // Row(
           //   children: [
