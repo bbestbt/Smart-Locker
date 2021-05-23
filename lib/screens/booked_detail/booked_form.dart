@@ -88,10 +88,21 @@ class _BookedFormState extends State<BookedForm> {
 
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
-        context: context,
-        initialDate: date,
-        firstDate: new DateTime(2021),
-        lastDate: new DateTime(2022));
+      context: context,
+      initialDate: date,
+      firstDate: DateTime.now(),
+      lastDate: new DateTime(2022),
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Color(0xFFF8510d8),
+            ),
+          ),
+          child: child,
+        );
+      },
+    );
     if (picked != null && picked != date) {
       print('Date selected: ${date.toString().substring(0, 10)}');
       setState(() {
@@ -101,8 +112,22 @@ class _BookedFormState extends State<BookedForm> {
   }
 
   Future<Null> _selectFromTime(BuildContext context) async {
-    final TimeOfDay picked =
-        await showTimePicker(context: context, initialTime: time);
+    final TimeOfDay picked = await showTimePicker(
+        context: context,
+        initialTime: time,
+        builder: (context, child) {
+          return Theme(
+            data: ThemeData.light().copyWith(
+              colorScheme: ColorScheme.light(
+                // change the border color
+                primary: Color(0xFF6F35A5),
+                // change the text color
+                onSurface: Colors.purple,
+              ),
+            ),
+            child: child,
+          );
+        });
 
     if (picked != null && picked != time) {
       print('Time selected: ${time.toString().substring(10, 15)}');
@@ -111,18 +136,6 @@ class _BookedFormState extends State<BookedForm> {
       });
     }
   }
-
-  // Future<Null> _selectToTime(BuildContext context) async {
-  //   final TimeOfDay picked =
-  //       await showTimePicker(context: context, initialTime: _toTime);
-
-  //   if (picked != null && picked != _toTime) {
-  //     print('Time selected: ${_toTime.toString()}');
-  //     setState(() {
-  //       _toTime = picked;
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -184,21 +197,6 @@ class _BookedFormState extends State<BookedForm> {
           //Text(lockerId.toString()),
           //  Text(email),
 
-          // Row(
-          //   children: [
-          //     Text('To : ', style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,color:Colors.black),),
-          //     Spacer(flex: 2),
-          //     RaisedButton(
-          //       child: Text('Select Time'),
-          //       onPressed: () {
-          //         _selectToTime(context);
-          //       },
-          //     ),
-          //   ],
-          // ),
-          //  SizedBox(height: 10,),
-          // Text('To Time selected: ${_toTime.toString()}'),
-          // SizedBox(height: 20,),
           DefaultButton(
               text: "Confirm",
               press: () async {
@@ -218,7 +216,8 @@ class _BookedFormState extends State<BookedForm> {
                   Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => LockerOption()));
                 } else {
-                   await Dialogs.yesDialog(context, "Booked Locker", "This locker is already booked");
+                  await Dialogs.yesDialog(context, "Booked Locker",
+                      "This locker is already booked");
                   return '';
                 }
               }),
