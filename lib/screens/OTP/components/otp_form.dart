@@ -5,6 +5,7 @@ import 'package:locker/constants.dart';
 import 'package:locker/screens/OTP/otpModel.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:locker/screens/sign_in/sign_in_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OtpForm extends StatefulWidget {
@@ -14,7 +15,7 @@ class OtpForm extends StatefulWidget {
 
 class _OtpFormState extends State<OtpForm> {
   String email = '';
-
+  var response;
   Future resendCode(String code) async {
     getEmail();
     var response = await http.get(
@@ -35,7 +36,7 @@ class _OtpFormState extends State<OtpForm> {
 
   Future<OTPModel> addCode(String code) async {
     getEmail();
-    var response = await http.put(
+     response = await http.put(
         Uri.https('smart-locker-api.azurewebsites.net', 'api/Account/verify'),
         headers: {
           "accept": "application/json",
@@ -49,8 +50,8 @@ class _OtpFormState extends State<OtpForm> {
     var data = response.body;
     print(data);
     if (response.statusCode == 200) {
-      String responseString = response.body;
-      otpModelFromJson(responseString);
+      // String responseString = response.body;
+      // otpModelFromJson(responseString);
     } else
       return null;
   }
@@ -189,6 +190,16 @@ class _OtpFormState extends State<OtpForm> {
                 setState(() {
                   _otpModel = data;
                 });
+                 if (response.statusCode == 200) {
+                       Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SignInScreen()));
+                 }
+                 else {
+                    return '';
+                  }
+             
               }),
          // Center(child: email == '' ? Text('') : Text(email)),
         ],
