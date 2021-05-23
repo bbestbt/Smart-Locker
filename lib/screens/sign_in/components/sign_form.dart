@@ -15,8 +15,9 @@ class SignForm extends StatefulWidget {
   _SignFormState createState() => _SignFormState();
 }
 
+var response;
 Future<LoginModel> login(String userName, String password) async {
-  var response = await http.post(
+  response = await http.post(
       Uri.https('smart-locker-api.azurewebsites.net', 'api/Account/login'),
       headers: {
         "accept": "application/json",
@@ -32,8 +33,7 @@ Future<LoginModel> login(String userName, String password) async {
   print(parsedData);
 
   if (response.statusCode == 202) {
-
-    SharedPreferences preferences=await SharedPreferences.getInstance();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setString('userName', parsedData['user']['userName']);
     preferences.setString('email', parsedData['user']['email']);
     String responseString = response.body;
@@ -119,9 +119,14 @@ class _SignFormState extends State<SignForm> {
                     _loginModel = data;
                   });
 
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => DetailScreen()));
-
+                  if (response.statusCode == 202) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailScreen()));
+                  } else {
+                    return '';
+                  }
                   //valid
                   // Navigator.pushNamed(context, HomeScreen.routeName);
 

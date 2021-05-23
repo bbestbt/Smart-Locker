@@ -16,7 +16,7 @@ class _BodyState extends State<Body> {
       width: double.infinity,
       child: SafeArea(
         child: Column(
-          children: <Widget>[
+          children: [
             Expanded(
               flex: 4,
               child:

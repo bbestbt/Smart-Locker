@@ -85,39 +85,41 @@ class _LockerOptionState extends State<LockerOption> {
             padding: EdgeInsets.symmetric(
               horizontal: 50,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/images/door-keys.png',
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-                DefaultButton(
-                  text: "Open",
-                  press: () {},
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                DefaultButton(
-                  text: "Close",
-                  press: () {},
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                DefaultButton(
-                  text: "Stop",
-                  press: () async {
-                    await stopBooked();
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => CreditScreen(price)));
-                  },
-                ),
-              ],
+            child: SingleChildScrollView(
+                          child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/images/door-keys.png',
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  DefaultButton(
+                    text: "Open",
+                    press: () {},
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  DefaultButton(
+                    text: "Close",
+                    press: () {},
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  DefaultButton(
+                    text: "Stop",
+                    press: () async {
+                      await stopBooked();
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => CreditScreen(price)));
+                    },
+                  ),
+                ],
+              ),
             )));
   }
 }
