@@ -216,7 +216,7 @@ class _BookedFormState extends State<BookedForm> {
             height: 20,
           ),
 
-          Text(lockerId.toString()),
+          //Text(lockerId.toString()),
           //  Text(email),
 
           // Row(

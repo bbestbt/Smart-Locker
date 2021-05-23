@@ -18,14 +18,8 @@ class CreditCard extends StatefulWidget {
   _CreditCardState createState() => _CreditCardState(price);
 }
 
-Future<CardModel> addCard(
-  String name,
-  String cardNumber,
-  int month,
-  int year,
-  String cvc,
-  double price
-) async {
+Future<CardModel> addCard(String name, String cardNumber, int month, int year,
+    String cvc, double price) async {
   var response = await http.post(
       Uri.https('smart-locker-api.azurewebsites.net', 'api/Charge/pay'),
       headers: {
@@ -118,6 +112,17 @@ class _CreditCardState extends State<CreditCard> {
             buildCVCFormField(),
             SizedBox(height: 20),
             FormError(errors: errors),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Price : ",style: TextStyle(fontSize: 20,color: Color(0xFF6F35A5),fontWeight: FontWeight.bold),),
+                Text(
+                  price.toString() + " Baht",style: TextStyle(fontSize: 20,color: Color(0xFF6F35A5),fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
             DefaultButton(
               text: "Confirm",
               press: () async {
@@ -133,8 +138,8 @@ class _CreditCardState extends State<CreditCard> {
                   print(year);
                   print(cvc);
 
-                  CardModel data =
-                      await addCard(name, cardNumber, month, year, cvc, this.price);
+                  CardModel data = await addCard(
+                      name, cardNumber, month, year, cvc, this.price);
                   setState(() {
                     _cardModel = data;
                   });
@@ -145,7 +150,7 @@ class _CreditCardState extends State<CreditCard> {
                 }
               },
             ),
-          //  Center(child: userName == '' ? Text('') : Text(userName)),
+            //  Center(child: userName == '' ? Text('') : Text(userName)),
           ],
         ),
       ),
