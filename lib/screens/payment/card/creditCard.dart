@@ -186,9 +186,9 @@ class _CreditCardState extends State<CreditCard> {
 
   TextFormField buildCardNumberFormField() {
     return TextFormField(
-      // inputFormatters: [
-      //   MaskTextInputFormatter(mask: "####-####-####-####"),
-      // ],
+      inputFormatters: [
+        MaskTextInputFormatter(mask: "####-####-####-####"),
+      ],
       keyboardType: TextInputType.number,
       controller: cardNumberController,
       cursorColor: Color(0xFF6F35A5),
@@ -223,9 +223,9 @@ class _CreditCardState extends State<CreditCard> {
 
   TextFormField buildMonthFormField() {
     return TextFormField(
-      // inputFormatters: [
-      //   MaskTextInputFormatter(mask: "##"),
-      // ],
+      inputFormatters: [
+        MaskTextInputFormatter(mask: "##"),
+      ],
       controller: monthController,
       keyboardType: TextInputType.number,
       cursorColor: Color(0xFF6F35A5),
@@ -260,9 +260,9 @@ class _CreditCardState extends State<CreditCard> {
 
   TextFormField buildYearFormField() {
     return TextFormField(
-      // inputFormatters: [
-      //   MaskTextInputFormatter(mask: "####"),
-      // ],
+      inputFormatters: [
+        MaskTextInputFormatter(mask: "####"),
+      ],
       controller: yearController,
       keyboardType: TextInputType.number,
       cursorColor: Color(0xFF6F35A5),
@@ -297,9 +297,9 @@ class _CreditCardState extends State<CreditCard> {
 
   TextFormField buildCVCFormField() {
     return TextFormField(
-      // inputFormatters: [
-      //   MaskTextInputFormatter(mask: "###"),
-      // ],
+      inputFormatters: [
+        MaskTextInputFormatter(mask: "###"),
+      ],
       controller: cvcController,
       keyboardType: TextInputType.number,
       cursorColor: Color(0xFF6F35A5),

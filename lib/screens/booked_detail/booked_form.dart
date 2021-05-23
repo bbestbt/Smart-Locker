@@ -22,43 +22,7 @@ class _BookedFormState extends State<BookedForm> {
   String email = '';
   lockerModel _lockerModel;
   var price;
-
-  // Future stopBooked() async {
-  //   getLockerId();
-  //   getEmail();
-  //   var response = await http.put(
-  //     Uri.https('smart-locker-api.azurewebsites.net',
-  //         'api/Locker/finish/${lockerId}'),
-  //     headers: {
-  //       "accept": "application/json",
-  //       "content-type": "application/json",
-  //       "email": email,
-  //       "lockerId": lockerId.toString(),
-  //     },
-  //   );
-  //   print('----------');
-  //   print(response.statusCode);
-  //   if (response.statusCode == 200) {
-  //     var parsedData = jsonDecode(response.body);
-  //     print('200 ja');
-  //     print('test');
-  //     print(parsedData);
-  //     price = double.parse('${parsedData}');
-  //     print('price');
-  //     print(price);
-  //     return price;
-  //     //  var price = int.parse(parsedData.toString());
-  //     //  print('price');
-  //     //  print(price);
-  //     //  return price;
-  //     // print(lockerId);
-  //   } else if (response.statusCode == 400) {
-  //     print('400');
-  //   } else if (response.statusCode == 500) {
-  //     print('500');
-  //   } else
-  //     return null;
-  // }
+  var response;
 
   Future getUserName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -86,7 +50,7 @@ class _BookedFormState extends State<BookedForm> {
     print("BOOK LOCKER " + date.toString());
     getLockerId();
     getEmail();
-    var response = await http.put(
+    response = await http.put(
         Uri.https('smart-locker-api.azurewebsites.net', 'api/Locker/book'),
         headers: {
           "accept": "application/json",
@@ -236,23 +200,28 @@ class _BookedFormState extends State<BookedForm> {
           // Text('To Time selected: ${_toTime.toString()}'),
           // SizedBox(height: 20,),
           DefaultButton(
-            text: "Confirm",
-            press: () async {
-              print(lockerId);
-              print(date.toString().substring(0, 10));
-              print(time.toString().substring(10, 15));
-              lockerModel data = await bookLocker(
-                  lockerId,
-                  date.toString().substring(0, 10),
-                  time.toString().substring(10, 15));
-              setState(() {
-                _lockerModel = data;
-              });
-             await Dialogs.yesDialog(context, "Booked Locker", "Done");
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => LockerOption()));
-            },
-          ),
+              text: "Confirm",
+              press: () async {
+                print(lockerId);
+                print(date.toString().substring(0, 10));
+                print(time.toString().substring(10, 15));
+                lockerModel data = await bookLocker(
+                    lockerId,
+                    date.toString().substring(0, 10),
+                    time.toString().substring(10, 15));
+                setState(() {
+                  _lockerModel = data;
+                });
+
+                if (response.statusCode == 204) {
+                  await Dialogs.yesDialog(context, "Booked Locker", "Done");
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => LockerOption()));
+                } else {
+                   await Dialogs.yesDialog(context, "Booked Locker", "This locker is already booked");
+                  return '';
+                }
+              }),
           SizedBox(
             height: 20,
           ),
