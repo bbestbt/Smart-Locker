@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:locker/components/default_button.dart';
 import 'package:locker/screens/booked_detail/dialog.dart';
+import 'package:locker/screens/booked_detail/lockerOption.dart';
 import 'package:locker/screens/payment/card/credit.dart';
 import 'package:locker/screens/payment/payment.dart';
 import 'package:locker/screens/payment/scan/scan.dart';
@@ -22,42 +23,42 @@ class _BookedFormState extends State<BookedForm> {
   lockerModel _lockerModel;
   var price;
 
-  Future stopBooked() async {
-    getLockerId();
-    getEmail();
-    var response = await http.put(
-      Uri.https('smart-locker-api.azurewebsites.net',
-          'api/Locker/finish/${lockerId}'),
-      headers: {
-        "accept": "application/json",
-        "content-type": "application/json",
-        "email": email,
-        "lockerId": lockerId.toString(),
-      },
-    );
-    print('----------');
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      var parsedData = jsonDecode(response.body);
-      print('200 ja');
-      print('test');
-      print(parsedData);
-      price = double.parse('${parsedData}');
-      print('price');
-      print(price);
-      return price;
-      //  var price = int.parse(parsedData.toString());
-      //  print('price');
-      //  print(price);
-      //  return price;
-      // print(lockerId);
-    } else if (response.statusCode == 400) {
-      print('400');
-    } else if (response.statusCode == 500) {
-      print('500');
-    } else
-      return null;
-  }
+  // Future stopBooked() async {
+  //   getLockerId();
+  //   getEmail();
+  //   var response = await http.put(
+  //     Uri.https('smart-locker-api.azurewebsites.net',
+  //         'api/Locker/finish/${lockerId}'),
+  //     headers: {
+  //       "accept": "application/json",
+  //       "content-type": "application/json",
+  //       "email": email,
+  //       "lockerId": lockerId.toString(),
+  //     },
+  //   );
+  //   print('----------');
+  //   print(response.statusCode);
+  //   if (response.statusCode == 200) {
+  //     var parsedData = jsonDecode(response.body);
+  //     print('200 ja');
+  //     print('test');
+  //     print(parsedData);
+  //     price = double.parse('${parsedData}');
+  //     print('price');
+  //     print(price);
+  //     return price;
+  //     //  var price = int.parse(parsedData.toString());
+  //     //  print('price');
+  //     //  print(price);
+  //     //  return price;
+  //     // print(lockerId);
+  //   } else if (response.statusCode == 400) {
+  //     print('400');
+  //   } else if (response.statusCode == 500) {
+  //     print('500');
+  //   } else
+  //     return null;
+  // }
 
   Future getUserName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -247,20 +248,22 @@ class _BookedFormState extends State<BookedForm> {
               setState(() {
                 _lockerModel = data;
               });
-              Dialogs.yesDialog(context, "Booked Locker", "Done");
+             await Dialogs.yesDialog(context, "Booked Locker", "Done");
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => LockerOption()));
             },
           ),
           SizedBox(
             height: 20,
           ),
-          DefaultButton(
-            text: "Stop",
-            press: () async {
-              await stopBooked();
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => CreditScreen(price)));
-            },
-          ),
+          // DefaultButton(
+          //   text: "Stop",
+          //   press: () async {
+          //     await stopBooked();
+          //     Navigator.of(context).push(
+          //         MaterialPageRoute(builder: (context) => CreditScreen(price)));
+          //   },
+          // ),
           //      Center(child: userName==''? Text(''):Text(userName)),
         ],
       ),
