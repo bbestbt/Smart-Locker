@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:intl/intl.dart';
+
 class BookedForm extends StatefulWidget {
   @override
   _BookedFormState createState() => _BookedFormState();
@@ -19,13 +20,14 @@ class _BookedFormState extends State<BookedForm> {
   int lockerId;
   String email = '';
   lockerModel _lockerModel;
+  var price;
 
   Future stopBooked() async {
     getLockerId();
     getEmail();
     var response = await http.put(
-      Uri.https(
-          'smart-locker-api.azurewebsites.net', 'api/Locker/finish/${lockerId}'),
+      Uri.https('smart-locker-api.azurewebsites.net',
+          'api/Locker/finish/${lockerId}'),
       headers: {
         "accept": "application/json",
         "content-type": "application/json",
@@ -33,17 +35,27 @@ class _BookedFormState extends State<BookedForm> {
         "lockerId": lockerId.toString(),
       },
     );
+    print('----------');
     print(response.statusCode);
     if (response.statusCode == 200) {
-     print('200');
-    // print(lockerId);
-    } else if(response.statusCode == 400){
-       print('400');
-    }
-    else if(response.statusCode == 500){
-       print('500');
-    }
-    else
+      var parsedData = jsonDecode(response.body);
+      print('200 ja');
+      print('test');
+      print(parsedData);
+      price = double.parse('${parsedData}');
+      print('price');
+      print(price);
+      // return price;
+      //  var price = int.parse(parsedData.toString());
+      //  print('price');
+      //  print(price);
+      //  return price;
+      // print(lockerId);
+    } else if (response.statusCode == 400) {
+      print('400');
+    } else if (response.statusCode == 500) {
+      print('500');
+    } else
       return null;
   }
 
@@ -70,6 +82,7 @@ class _BookedFormState extends State<BookedForm> {
   }
 
   Future<lockerModel> bookLocker(int lockerId, String date, String time) async {
+    print("BOOK LOCKER " + date.toString());
     getLockerId();
     getEmail();
     var response = await http.put(
@@ -86,15 +99,14 @@ class _BookedFormState extends State<BookedForm> {
         }));
     // print(email);
     print(response.statusCode);
-    var data = response.body;
-    print(data);
+    print(response.body);
     if (response.statusCode == 204) {
       // String responseString = response.body;
       // lockerModelFromJson(responseString);
-    }else if(response.statusCode==500){
+      print("SUCCESSFUL");
+    } else if (response.statusCode == 500) {
       print('500 ja');
-    }
-     else
+    } else
       return null;
   }
 
@@ -116,7 +128,7 @@ class _BookedFormState extends State<BookedForm> {
         firstDate: new DateTime(2021),
         lastDate: new DateTime(2022));
     if (picked != null && picked != date) {
-      print('Date selected: ${date.toString().substring(0,10)}');
+      print('Date selected: ${date.toString().substring(0, 10)}');
       setState(() {
         date = picked;
       });
@@ -128,7 +140,7 @@ class _BookedFormState extends State<BookedForm> {
         await showTimePicker(context: context, initialTime: time);
 
     if (picked != null && picked != time) {
-      print('Time selected: ${time.toString().substring(10,15)}');
+      print('Time selected: ${time.toString().substring(10, 15)}');
       setState(() {
         time = picked;
       });
@@ -174,7 +186,7 @@ class _BookedFormState extends State<BookedForm> {
           SizedBox(
             height: 10,
           ),
-          Text('Date selected: ${date.toString().substring(0,10)}'),
+          Text('Date selected: ${date.toString().substring(0, 10)}'),
           SizedBox(
             height: 20,
           ),
@@ -199,7 +211,7 @@ class _BookedFormState extends State<BookedForm> {
           SizedBox(
             height: 10,
           ),
-          Text('From Time selected: ${time.toString().substring(10,15)}'),
+          Text('Time selected: ${time.toString().substring(10, 15)}'),
           SizedBox(
             height: 20,
           ),
@@ -226,10 +238,12 @@ class _BookedFormState extends State<BookedForm> {
             text: "Confirm",
             press: () async {
               print(lockerId);
-              print(date.toString().substring(0,10));
-               print(time.toString().substring(10,15));
-              lockerModel data =
-                  await bookLocker(lockerId, date.toString().substring(0,10), time.toString().substring(10,15));
+              print(date.toString().substring(0, 10));
+              print(time.toString().substring(10, 15));
+              lockerModel data = await bookLocker(
+                  lockerId,
+                  date.toString().substring(0, 10),
+                  time.toString().substring(10, 15));
               setState(() {
                 _lockerModel = data;
               });
@@ -241,10 +255,10 @@ class _BookedFormState extends State<BookedForm> {
           ),
           DefaultButton(
             text: "Stop",
-            press: () {
-               stopBooked();
+            press: () async {
+              await stopBooked();
               Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => CreditScreen()));
+                  MaterialPageRoute(builder: (context) => CreditScreen(price)));
             },
           ),
           //      Center(child: userName==''? Text(''):Text(userName)),

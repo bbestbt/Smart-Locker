@@ -10,8 +10,12 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreditCard extends StatefulWidget {
+  final price;
+
+  CreditCard(this.price);
+
   @override
-  _CreditCardState createState() => _CreditCardState();
+  _CreditCardState createState() => _CreditCardState(price);
 }
 
 Future<CardModel> addCard(
@@ -20,6 +24,7 @@ Future<CardModel> addCard(
   int month,
   int year,
   String cvc,
+  int price
 ) async {
   var response = await http.post(
       Uri.https('smart-locker-api.azurewebsites.net', 'api/Charge/pay'),
@@ -33,7 +38,7 @@ Future<CardModel> addCard(
         'month': month,
         'year': year,
         'cvc': cvc,
-        'value': 32000
+        'value': price
       }));
   var data = response.body;
   print(data);
@@ -47,6 +52,9 @@ Future<CardModel> addCard(
 //int var =int.parse(_section_id.text);
 class _CreditCardState extends State<CreditCard> {
   String userName = '';
+  int price;
+
+  _CreditCardState(this.price);
   Future getUserName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
@@ -126,7 +134,7 @@ class _CreditCardState extends State<CreditCard> {
                   print(cvc);
 
                   CardModel data =
-                      await addCard(cardNumber, name, month, year, cvc);
+                      await addCard(cardNumber, name, month, year, cvc, this.price);
                   setState(() {
                     _cardModel = data;
                   });
