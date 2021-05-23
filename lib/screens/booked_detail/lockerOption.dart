@@ -79,38 +79,45 @@ class _LockerOptionState extends State<LockerOption> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-      ),
-    body:Container(
-      color: Colors.white,
-        padding: EdgeInsets.symmetric(horizontal: 50,),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            DefaultButton(
-              text: "Open",
-              press: () {},
+        appBar: AppBar(),
+        body: Container(
+            color: Colors.white,
+            padding: EdgeInsets.symmetric(
+              horizontal: 50,
             ),
-            SizedBox(
-              height: 20,
-            ),
-            DefaultButton(
-              text: "Close",
-              press: () {},
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            DefaultButton(
-              text: "Stop",
-              press: () async {
-                await stopBooked();
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CreditScreen(price)));
-              },
-            ),
-          ],
-    )));
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/door-keys.png',
+                ),
+                SizedBox(
+                  height: 50,
+                ),
+                DefaultButton(
+                  text: "Open",
+                  press: () {},
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                DefaultButton(
+                  text: "Close",
+                  press: () {},
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                DefaultButton(
+                  text: "Stop",
+                  press: () async {
+                    await stopBooked();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => CreditScreen(price)));
+                  },
+                ),
+              ],
+            )));
   }
 }
