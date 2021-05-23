@@ -4,7 +4,7 @@ import 'package:locker/screens/payment/card/creditCard.dart';
 
 class CreditScreen extends StatefulWidget {
   static String routeName = "/credit";
-  final price;
+  final double price;
 
   CreditScreen(this.price);
 

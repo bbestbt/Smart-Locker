@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreditCard extends StatefulWidget {
-  final price;
+  final double price;
 
   CreditCard(this.price);
 
@@ -24,7 +24,7 @@ Future<CardModel> addCard(
   int month,
   int year,
   String cvc,
-  int price
+  double price
 ) async {
   var response = await http.post(
       Uri.https('smart-locker-api.azurewebsites.net', 'api/Charge/pay'),
@@ -38,13 +38,13 @@ Future<CardModel> addCard(
         'month': month,
         'year': year,
         'cvc': cvc,
-        'value': price
+        'value': (price * 100).toInt()
       }));
   var data = response.body;
-  print(data);
   if (response.statusCode == 200) {
-    String responseString = response.body;
-    cardModelFromJson(responseString);
+    print(data);
+    // String responseString = response.body;
+    // cardModelFromJson(responseString);
   } else
     return null;
 }
@@ -52,7 +52,7 @@ Future<CardModel> addCard(
 //int var =int.parse(_section_id.text);
 class _CreditCardState extends State<CreditCard> {
   String userName = '';
-  int price;
+  double price;
 
   _CreditCardState(this.price);
   Future getUserName() async {
@@ -134,7 +134,7 @@ class _CreditCardState extends State<CreditCard> {
                   print(cvc);
 
                   CardModel data =
-                      await addCard(cardNumber, name, month, year, cvc, this.price);
+                      await addCard(name, cardNumber, month, year, cvc, this.price);
                   setState(() {
                     _cardModel = data;
                   });

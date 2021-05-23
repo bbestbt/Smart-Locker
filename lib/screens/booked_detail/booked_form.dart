@@ -45,7 +45,7 @@ class _BookedFormState extends State<BookedForm> {
       price = double.parse('${parsedData}');
       print('price');
       print(price);
-      // return price;
+      return price;
       //  var price = int.parse(parsedData.toString());
       //  print('price');
       //  print(price);
