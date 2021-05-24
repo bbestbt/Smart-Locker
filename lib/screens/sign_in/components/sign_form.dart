@@ -16,6 +16,7 @@ class SignForm extends StatefulWidget {
   _SignFormState createState() => _SignFormState();
 }
 
+var parsedData;
 var response;
 Future<LoginModel> login(String userName, String password) async {
   response = await http.post(
@@ -30,7 +31,7 @@ Future<LoginModel> login(String userName, String password) async {
       }));
   var data = response.body;
   print(data);
-  Map<String, dynamic> parsedData = jsonDecode(data);
+  parsedData = jsonDecode(data);
   print(parsedData);
 
   if (response.statusCode == 202) {
@@ -127,7 +128,7 @@ class _SignFormState extends State<SignForm> {
                             builder: (context) => DetailScreen()));
                   } else {
                      await Dialogs.yesDialog(context, "Login",
-                      "Password is wrong or account does not exist");
+                      parsedData);
                     return '';
                   }
                   //valid
