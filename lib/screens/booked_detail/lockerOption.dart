@@ -47,6 +47,54 @@ class _LockerOptionState extends State<LockerOption> {
       return null;
   }
 
+  Future openLocker() async {
+    getLockerId();
+    getEmail();
+    var response = await http.put(
+      Uri.https(
+          'smart-locker-api.azurewebsites.net', 'api/Locker/open/${lockerId}'),
+      headers: {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "email": email,
+        "lockerId": lockerId.toString(),
+      },
+    );
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print("200");
+    } else if (response.statusCode == 400) {
+      print('400');
+    } else if (response.statusCode == 500) {
+      print('500');
+    } else
+      return null;
+  }
+
+  Future closeLocker() async {
+    getLockerId();
+    getEmail();
+    var response = await http.put(
+      Uri.https(
+          'smart-locker-api.azurewebsites.net', 'api/Locker/close/${lockerId}'),
+      headers: {
+        "accept": "application/json",
+        "content-type": "application/json",
+        "email": email,
+        "lockerId": lockerId.toString(),
+      },
+    );
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print("200");
+    } else if (response.statusCode == 400) {
+      print('400');
+    } else if (response.statusCode == 500) {
+      print('500');
+    } else
+      return null;
+  }
+
   Future getUserName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
 
@@ -86,7 +134,7 @@ class _LockerOptionState extends State<LockerOption> {
               horizontal: 50,
             ),
             child: SingleChildScrollView(
-                          child: Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -98,14 +146,18 @@ class _LockerOptionState extends State<LockerOption> {
                   ),
                   DefaultButton(
                     text: "Open",
-                    press: () {},
+                    press: () async {
+                      await openLocker();
+                    },
                   ),
                   SizedBox(
                     height: 20,
                   ),
                   DefaultButton(
                     text: "Close",
-                    press: () {},
+                    press: () async {
+                      await closeLocker();
+                    },
                   ),
                   SizedBox(
                     height: 20,
