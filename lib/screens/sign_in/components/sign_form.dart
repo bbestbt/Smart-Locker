@@ -82,27 +82,27 @@ class _SignFormState extends State<SignForm> {
           SizedBox(
             height: 20,
           ),
-          Row(
-            children: [
-              Checkbox(
-                  value: remember,
-                  activeColor: Color(0xFF6F35A5),
-                  onChanged: (value) {
-                    setState(() {
-                      remember = value;
-                    });
-                  }),
-              Text("Remeber me"),
-              Spacer(),
-              GestureDetector(
-                  onTap: () => Navigator.pushNamed(
-                      context, ForgotPasswordScreen.routeName),
-                  child: Text(
-                    "Forgot pasword",
-                    style: TextStyle(decoration: TextDecoration.underline),
-                  )),
-            ],
-          ),
+          // Row(
+          //   children: [
+          //     Checkbox(
+          //         value: remember,
+          //         activeColor: Color(0xFF6F35A5),
+          //         onChanged: (value) {
+          //           setState(() {
+          //             remember = value;
+          //           });
+          //         }),
+          //     Text("Remeber me"),
+          //     Spacer(),
+          //     GestureDetector(
+          //         onTap: () => Navigator.pushNamed(
+          //             context, ForgotPasswordScreen.routeName),
+          //         child: Text(
+          //           "Forgot pasword",
+          //           style: TextStyle(decoration: TextDecoration.underline),
+          //         )),
+          //   ],
+          // ),
           FormError(errors: errors),
           DefaultButton(
               text: "Login",
