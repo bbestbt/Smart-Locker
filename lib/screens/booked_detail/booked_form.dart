@@ -46,6 +46,7 @@ class _BookedFormState extends State<BookedForm> {
     });
   }
 
+//return lockermodel
   Future<lockerModel> bookLocker(int lockerId, String date, String time) async {
     print("BOOK LOCKER " + date.toString());
     getLockerId();

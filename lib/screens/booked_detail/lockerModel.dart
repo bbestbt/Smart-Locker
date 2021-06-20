@@ -1,7 +1,7 @@
 import 'dart:convert';
-
+//convert to model
 lockerModel lockerModelFromJson(String str) => lockerModel.fromJson(json.decode(str));
-
+//convert to json as string
 String lockerModelToJson(lockerModel data) => json.encode(data.toJson());
 
 class lockerModel {
